@@ -1,10 +1,8 @@
 package com.nopalsoft.dragracer;
 
 import android.os.Bundle;
-
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.nopalsoft.dragracer.MainStreet;
 import com.nopalsoft.dragracer.handlers.GameServicesHandler;
 import com.nopalsoft.dragracer.handlers.RequestHandler;
 

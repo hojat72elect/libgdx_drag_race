@@ -1,7 +1,5 @@
 package com.nopalsoft.dragracer.screens;
 
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
@@ -20,12 +18,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.nopalsoft.dragracer.Assets;
 import com.nopalsoft.dragracer.MainStreet;
 import com.nopalsoft.dragracer.Settings;
 import com.nopalsoft.dragracer.game.GameScreen;
 import com.nopalsoft.dragracer.shop.ShopScreen;
+
+import java.util.Random;
 
 public abstract class Screens extends InputAdapter implements Screen,
         GestureListener {
@@ -42,6 +41,7 @@ public abstract class Screens extends InputAdapter implements Screen,
     public Stage stage;
 
     Random oRan;
+    Image blackFadeOut;
 
     public Screens(final MainStreet game) {
         this.stage = game.stage;
@@ -76,8 +76,6 @@ public abstract class Screens extends InputAdapter implements Screen,
         stage.draw();
 
     }
-
-    Image blackFadeOut;
 
     public void changeScreenWithFadeOut(final Class<?> newScreen,
                                         final MainStreet game) {

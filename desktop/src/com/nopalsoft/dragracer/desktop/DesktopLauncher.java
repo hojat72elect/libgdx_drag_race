@@ -8,16 +8,6 @@ import com.nopalsoft.dragracer.handlers.GoogleGameServicesHandler;
 import com.nopalsoft.dragracer.handlers.RequestHandler;
 
 public class DesktopLauncher {
-    public static void main(String[] args) {
-        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "StreetSwipinRace";
-        cfg.width = 480;
-        cfg.height = 800;
-
-        new LwjglApplication(new MainStreet(reqHandler,
-                gameHandler), cfg);
-    }
-
     static RequestHandler reqHandler = new RequestHandler() {
 
         @Override
@@ -80,7 +70,6 @@ public class DesktopLauncher {
         }
 
     };
-
     static GoogleGameServicesHandler gameHandler = new GoogleGameServicesHandler() {
 
         @Override
@@ -125,4 +114,14 @@ public class DesktopLauncher {
 
         }
     };
+
+    public static void main(String[] args) {
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.title = "StreetSwipinRace";
+        config.width = 480;
+        config.height = 800;
+
+        new LwjglApplication(new MainStreet(reqHandler,
+                gameHandler), config);
+    }
 }

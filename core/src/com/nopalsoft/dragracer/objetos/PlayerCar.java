@@ -1,9 +1,5 @@
 package com.nopalsoft.dragracer.objetos;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,24 +13,23 @@ import com.nopalsoft.dragracer.Settings;
 import com.nopalsoft.dragracer.game.TrafficGame;
 import com.nopalsoft.dragracer.shop.PersonajesSubMenu;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+
 public class PlayerCar extends Actor {
     public static final int STATE_NORMAL = 0;
     public static final int STATE_GIRANDO = 1;
     public static final int STATE_EXPLOSION = 2;
     public static final int STATE_DEAD = 3;
-    public int state;
-
     public static final float TIME_EXPLOSION = Assets.newExplosion.getAnimationDuration();
     public static final float TIME_GIRANDO = 1.5f;
-
     private final TrafficGame trafficGame;
     private final Rectangle bounds = new Rectangle();
-    private int lane;
-
+    public int state;
+    public float stateTime;
     float moveTime = .75f;
     TextureRegion keyframe;
-
-    public float stateTime;
+    ShapeRenderer renders = new ShapeRenderer();
+    private int lane;
 
     public PlayerCar(TrafficGame trafficGame) {
         this.trafficGame = trafficGame;
@@ -188,8 +183,6 @@ public class PlayerCar extends Actor {
             batch.begin();
         }
     }
-
-    ShapeRenderer renders = new ShapeRenderer();
 
     private void updateBounds() {
         bounds.set(getX(), getY(), getWidth(), getHeight());

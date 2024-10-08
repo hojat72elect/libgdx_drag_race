@@ -41,15 +41,13 @@ public class GameScreen extends Screens {
     Label lbLeaderboard;
 
     SpeedBar speedBar;
-    private Stage stageGame;
-    private TrafficGame trafficGame;
     int score, coins;
-
     boolean canSuperSpeed;
-
     Group gpPaused;
     MarcoGameOver marcoGameOver;
     Button btMusica;
+    private final Stage stageGame;
+    private final TrafficGame trafficGame;
 
     public GameScreen(MainStreet game) {
         super(game);
@@ -170,10 +168,8 @@ public class GameScreen extends Screens {
     @Override
     public void update(float delta) {
 
-        switch (state) {
-            case STATE_RUNNING:
-                updateRunning(delta);
-                break;
+        if (state == STATE_RUNNING) {
+            updateRunning(delta);
         }
     }
 

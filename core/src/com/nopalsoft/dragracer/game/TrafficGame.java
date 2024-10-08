@@ -1,7 +1,5 @@
 package com.nopalsoft.dragracer.game;
 
-import java.util.Iterator;
-
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
@@ -12,40 +10,34 @@ import com.nopalsoft.dragracer.objetos.Moneda;
 import com.nopalsoft.dragracer.objetos.PlayerCar;
 import com.nopalsoft.dragracer.screens.Screens;
 
+import java.util.Iterator;
+
 public class TrafficGame extends Table {
     public static final int STATE_RUNNING = 0;
     public static final int STATE_GAMEOVER = 1;
-    public int state;
-
-    final float WIDTH = Screens.WORLD_WIDTH;
-    final float HEIGHT = Screens.WORLD_HEIGHT;
-
     public final static int NUM_COINS_FOR_SUPERSPEED = 10;
-    public int numCoinsForSuperSpeed;
-    boolean canSuperSpeed;
-
-    final float TIME_TO_SPAWN_CAR = 2;
-    float timeToSpawnCar;
-
-    final float TIME_TO_SPAWN_COIN = 1f;
-    float timeToSpawnCoin;
-
-    final float DURATION_SUPER_SPEED = 5;
-    float durationSuperSpeed = 0;
-    boolean isSuperSpeed;
-    float velocidadActual = 5;
-
-    float score;
-    int coins;
-
-    private final InfiniteScrollBg backgroundRoad;
-    public PlayerCar oCar;
-    private final Array<EnemyCar> arrEnemyCars;
-    private final Array<Moneda> arrCoins;
-
     public final float lane2 = 390;
     public final float lane1 = 240;
     public final float lane0 = 90;
+    final float WIDTH = Screens.WORLD_WIDTH;
+    final float HEIGHT = Screens.WORLD_HEIGHT;
+    final float TIME_TO_SPAWN_CAR = 2;
+    final float TIME_TO_SPAWN_COIN = 1f;
+    final float DURATION_SUPER_SPEED = 5;
+    private final InfiniteScrollBg backgroundRoad;
+    private final Array<EnemyCar> arrEnemyCars;
+    private final Array<Moneda> arrCoins;
+    public int state;
+    public int numCoinsForSuperSpeed;
+    public PlayerCar oCar;
+    boolean canSuperSpeed;
+    float timeToSpawnCar;
+    float timeToSpawnCoin;
+    float durationSuperSpeed = 0;
+    boolean isSuperSpeed;
+    float velocidadActual = 5;
+    float score;
+    int coins;
 
     public TrafficGame() {
         setBounds(0, 0, WIDTH, HEIGHT);
