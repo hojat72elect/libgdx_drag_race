@@ -2,6 +2,7 @@ package com.nopalsoft.dragracer.shop;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -13,128 +14,115 @@ import com.nopalsoft.dragracer.screens.Screens;
 
 public class ShopScreen extends Screens {
 
-    Button btPersonajes, btPowerUps, btMonedas, btNoAds, btAtras;
+    Button buttonCharacters, buttonPowerUps, buttonCoins, buttonNoAds, buttonBack;
 
-    Label lbCoin;
+    Label labelCoin;
 
-    ScrollPane scroll;
-    Table contenedor;
+    ScrollPane scrollPane;
+    Table container;
 
     public ShopScreen(final MainStreet game) {
         super(game);
 
-        Label lbShop = new Label("Shop", Assets.labelStyleGrande);
-        lbShop.setSize(135, 50);
-        lbShop.setPosition(3, 747);
+        Label labelShop = new Label("Shop", Assets.labelStyleLarge);
+        labelShop.setSize(135, 50);
+        labelShop.setPosition(3, 747);
 
-        Image imgCoin = new Image(Assets.coinFrente);
+        Image imageCoin = new Image(Assets.coinFront);
 
-        lbCoin = new Label("0", Assets.labelStyleGrande);
-        lbCoin.setFontScale(.8f);
+        labelCoin = new Label("0", Assets.labelStyleLarge);
+        labelCoin.setFontScale(.8f);
 
-        Table tbScores = new Table();
-        tbScores.setWidth(SCREEN_WIDTH);
-        tbScores.setPosition(0, SCREEN_HEIGHT - lbCoin.getHeight() / 2);
-        tbScores.padLeft(5).padRight(5);
+        Table tableScores = new Table();
+        tableScores.setWidth(SCREEN_WIDTH);
+        tableScores.setPosition(0, SCREEN_HEIGHT - labelCoin.getHeight() / 2);
+        tableScores.padLeft(5).padRight(5);
 
-        tbScores.add(lbCoin).right().expand().padRight(5);
-        tbScores.add(imgCoin).right();
+        tableScores.add(labelCoin).right().expand().padRight(5);
+        tableScores.add(imageCoin).right();
 
-        Image separadorH = new Image(Assets.separadorHorizontal);
-        separadorH.setSize(SCREEN_WIDTH, 5);
-        separadorH.setColor(Color.LIGHT_GRAY);
-        separadorH.setPosition(0, 740);
+        Image imageHorizontalSeparator = new Image(Assets.horizontalSeparator);
+        imageHorizontalSeparator.setSize(SCREEN_WIDTH, 5);
+        imageHorizontalSeparator.setColor(Color.LIGHT_GRAY);
+        imageHorizontalSeparator.setPosition(0, 740);
 
-        Image separadorV = new Image(Assets.separadorVertical);
-        separadorV.setSize(5, 745);
-        separadorV.setColor(Color.LIGHT_GRAY);
-        separadorV.setPosition(90, 0);
+        Image imageVerticalSeparator = new Image(Assets.verticalSeparator);
+        imageVerticalSeparator.setSize(5, 745);
+        imageVerticalSeparator.setColor(Color.LIGHT_GRAY);
+        imageVerticalSeparator.setPosition(90, 0);
 
-        initButtons();
+        initializeButtons();
 
-        contenedor = new Table();
-        // contenedor.debug();
-        scroll = new ScrollPane(contenedor, Assets.styleScrollPane);
-        scroll.setSize(SCREEN_WIDTH - 95, (SCREEN_HEIGHT - 62));
-        scroll.setPosition(95, 0);
+        container = new Table();
 
-        stage.addActor(tbScores);
-        stage.addActor(lbShop);
-        stage.addActor(separadorV);
-        stage.addActor(separadorH);
-        stage.addActor(btPersonajes);
-        // stage.addActor(btPowerUps);
-        stage.addActor(btMonedas);
-        stage.addActor(btNoAds);
-        stage.addActor(btAtras);
-        stage.addActor(scroll);
+        scrollPane = new ScrollPane(container, Assets.styleScrollPane);
+        scrollPane.setSize(SCREEN_WIDTH - 95, (SCREEN_HEIGHT - 62));
+        scrollPane.setPosition(95, 0);
 
-        new PersonajesSubMenu(game, contenedor);
+        stage.addActor(tableScores);
+        stage.addActor(labelShop);
+        stage.addActor(imageVerticalSeparator);
+        stage.addActor(imageHorizontalSeparator);
+        stage.addActor(buttonCharacters);
+
+        stage.addActor(buttonCoins);
+        stage.addActor(buttonNoAds);
+        stage.addActor(buttonBack);
+        stage.addActor(scrollPane);
+
+        new CharactersSubMenu(game, container);
 
     }
 
-    private void initButtons() {
-        btPersonajes = new Button(
-                new TextureRegionDrawable(Assets.carroTornado));
-        btPersonajes.setSize(45, 65);
-        btPersonajes.setPosition(23, 660);
-        addEfectoPress(btPersonajes);
-        btPersonajes.addListener(new ClickListener() {
+    private void initializeButtons() {
+        buttonCharacters = new Button(new TextureRegionDrawable(Assets.carTornado));
+        buttonCharacters.setSize(45, 65);
+        buttonCharacters.setPosition(23, 660);
+        addPressEffect(buttonCharacters);
+        buttonCharacters.addListener(new ClickListener() {
             public void clicked(
-                    com.badlogic.gdx.scenes.scene2d.InputEvent event, float x,
+                    InputEvent event, float x,
                     float y) {
-                new PersonajesSubMenu(game, contenedor);
+                new CharactersSubMenu(game, container);
             }
 
         });
 
-        btPowerUps = new Button(new TextureRegionDrawable(Assets.carroTornado));
-        btPowerUps.setSize(55, 55);
-        btPowerUps.setPosition(17, 570);
-        addEfectoPress(btPowerUps);
-        btPowerUps.addListener(new ClickListener() {
+        buttonPowerUps = new Button(new TextureRegionDrawable(Assets.carTornado));
+        buttonPowerUps.setSize(55, 55);
+        buttonPowerUps.setPosition(17, 570);
+        addPressEffect(buttonPowerUps);
+
+        buttonCoins = new Button(new TextureRegionDrawable(Assets.coinFront));
+        buttonCoins.setSize(55, 55);
+        buttonCoins.setPosition(17, 480);
+        addPressEffect(buttonCoins);
+        buttonCoins.addListener(new ClickListener() {
             public void clicked(
-                    com.badlogic.gdx.scenes.scene2d.InputEvent event, float x,
+                    InputEvent event, float x,
                     float y) {
-                // Settings.deleteAll();
-                // new UpgradesSubMenu(game, contenedor);
+                new GetCoinsSubMenu(game, container);
             }
 
         });
 
-        btMonedas = new Button(new TextureRegionDrawable(Assets.coinFrente));
-        btMonedas.setSize(55, 55);
-        btMonedas.setPosition(17, 480);
-        addEfectoPress(btMonedas);
-        btMonedas.addListener(new ClickListener() {
-            public void clicked(
-                    com.badlogic.gdx.scenes.scene2d.InputEvent event, float x,
-                    float y) {
-                new GetCoinsSubMenu(game, contenedor);
+        buttonNoAds = new Button(new TextureRegionDrawable(Assets.buttonNoAds));
+        buttonNoAds.setSize(55, 55);
+        buttonNoAds.setPosition(17, 390);
+        addPressEffect(buttonNoAds);
+        buttonNoAds.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                new NoAdsSubMenu(game, container);
             }
-
         });
 
-        btNoAds = new Button(new TextureRegionDrawable(Assets.btNoAds));
-        btNoAds.setSize(55, 55);
-        btNoAds.setPosition(17, 390);
-        addEfectoPress(btNoAds);
-        btNoAds.addListener(new ClickListener() {
+        buttonBack = new Button(new TextureRegionDrawable(Assets.buttonBack));
+        buttonBack.setSize(55, 55);
+        buttonBack.setPosition(17, 10);
+        addPressEffect(buttonBack);
+        buttonBack.addListener(new ClickListener() {
             public void clicked(
-                    com.badlogic.gdx.scenes.scene2d.InputEvent event, float x,
-                    float y) {
-                new NoAdsSubMenu(game, contenedor);
-            }
-
-        });
-
-        btAtras = new Button(new TextureRegionDrawable(Assets.btAtras));
-        btAtras.setSize(55, 55);
-        btAtras.setPosition(17, 10);
-        addEfectoPress(btAtras);
-        btAtras.addListener(new ClickListener() {
-            public void clicked(
-                    com.badlogic.gdx.scenes.scene2d.InputEvent event, float x,
+                    InputEvent event, float x,
                     float y) {
                 changeScreenWithFadeOut(MainMenuScreen.class, game);
             }
@@ -150,12 +138,12 @@ public class ShopScreen extends Screens {
 
     @Override
     public void update(float delta) {
-        lbCoin.setText(Settings.coinsTotal + "");
+        labelCoin.setText(Settings.coinsTotal + "");
     }
 
     @Override
-    public boolean keyDown(int tecleada) {
-        if (tecleada == Keys.BACK || tecleada == Keys.ESCAPE) {
+    public boolean keyDown(int keycode) {
+        if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
             changeScreenWithFadeOut(MainMenuScreen.class, game);
             return true;
         }

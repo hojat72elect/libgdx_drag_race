@@ -24,8 +24,6 @@ import com.nopalsoft.dragracer.Settings;
 import com.nopalsoft.dragracer.game.GameScreen;
 import com.nopalsoft.dragracer.shop.ShopScreen;
 
-import java.util.Random;
-
 public abstract class Screens extends InputAdapter implements Screen,
         GestureListener {
     public static final int SCREEN_WIDTH = 480;
@@ -36,11 +34,10 @@ public abstract class Screens extends InputAdapter implements Screen,
 
     public MainStreet game;
 
-    public OrthographicCamera oCam;
+    public OrthographicCamera camera;
     public SpriteBatch batcher;
     public Stage stage;
 
-    Random oRan;
     Image blackFadeOut;
 
     public Screens(final MainStreet game) {
@@ -49,8 +46,8 @@ public abstract class Screens extends InputAdapter implements Screen,
         this.batcher = game.batcher;
         this.game = game;
 
-        oCam = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
-        oCam.position.set(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f, 0);
+        camera = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
+        camera.position.set(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f, 0);
 
         GestureDetector detector = new GestureDetector(20, .5f, 2, .15f, this);
 
@@ -68,8 +65,8 @@ public abstract class Screens extends InputAdapter implements Screen,
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        oCam.update();
-        batcher.setProjectionMatrix(oCam.combined);
+        camera.update();
+        batcher.setProjectionMatrix(camera.combined);
         draw(delta);
 
         stage.act(delta);
@@ -79,7 +76,7 @@ public abstract class Screens extends InputAdapter implements Screen,
 
     public void changeScreenWithFadeOut(final Class<?> newScreen,
                                         final MainStreet game) {
-        blackFadeOut = new Image(Assets.pixelNegro);
+        blackFadeOut = new Image(Assets.pixelBlack);
         blackFadeOut.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         blackFadeOut.getColor().a = 0;
         blackFadeOut.addAction(Actions.sequence(Actions.fadeIn(.5f),
@@ -92,14 +89,12 @@ public abstract class Screens extends InputAdapter implements Screen,
                             game.setScreen(new GameScreen(game));
                         else if (newScreen == ShopScreen.class)
                             game.setScreen(new ShopScreen(game));
-                        // El blackFadeOut se remueve del stage cuando se le da new Screens(game) "Revisar el constructor de la clase Screens" por lo que no hay necesidad de hacer
-                        // blackFadeout.remove();
                     }
                 })));
         stage.addActor(blackFadeOut);
     }
 
-    public void addEfectoPress(final Actor actor) {
+    public void addPressEffect(final Actor actor) {
         actor.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y,

@@ -20,17 +20,7 @@ public class AndroidLauncher extends AndroidApplication implements GameServicesH
     }
 
     @Override
-    public void unlockAchievement(String achievementId) {
-
-    }
-
-    @Override
     public void getLeaderboard() {
-
-    }
-
-    @Override
-    public void getAchievements() {
 
     }
 
@@ -41,11 +31,6 @@ public class AndroidLauncher extends AndroidApplication implements GameServicesH
 
     @Override
     public void signIn() {
-
-    }
-
-    @Override
-    public void signOut() {
 
     }
 
@@ -65,17 +50,12 @@ public class AndroidLauncher extends AndroidApplication implements GameServicesH
     }
 
     @Override
-    public void showMoreGames() {
+    public void shareOnFacebook(String message) {
 
     }
 
     @Override
-    public void shareOnFacebook(String mensaje) {
-
-    }
-
-    @Override
-    public void shareOnTwitter(String mensaje) {
+    public void shareOnTwitter(String message) {
 
     }
 
@@ -95,7 +75,7 @@ public class AndroidLauncher extends AndroidApplication implements GameServicesH
     }
 
     @Override
-    public void buy50milCoins() {
+    public void buy50millionCoins() {
 
     }
 }

@@ -1,4 +1,4 @@
-package com.nopalsoft.dragracer.objetos;
+package com.nopalsoft.dragracer.game_objects;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -10,19 +10,18 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.nopalsoft.dragracer.Assets;
 import com.nopalsoft.dragracer.Settings;
 
-public class Moneda extends Actor {
+public class Coin extends Actor {
 
     final int STATE_NORMAL = 0;
-    final int STATE_TAKEN = 1;
+    private final Rectangle bounds = new Rectangle();
+    private final MoveToAction moveAction;
     public int state;
     boolean isSuperSpeed;
     ShapeRenderer renders = new ShapeRenderer();
-    private final Rectangle bounds = new Rectangle();
-    private final MoveToAction moveAction;
 
-    public Moneda(float x, float y) {
+    public Coin(float x, float y) {
 
-        // Le resto menos 5 para que los bounds no esten tan grandes : VEr metodo draw
+        // I subtract less 5 so that the bounds are not so big: See draw method.
         setWidth(10);
         setHeight(32);
         setPosition(x - getWidth() / 2f, y);
@@ -70,12 +69,6 @@ public class Moneda extends Actor {
             moveAction.reset();
             moveAction.setDuration(1f);
             addAction(moveAction);
-        }
-    }
-
-    public void hit() {
-        if (state == STATE_NORMAL) {
-            state = STATE_TAKEN;
         }
     }
 

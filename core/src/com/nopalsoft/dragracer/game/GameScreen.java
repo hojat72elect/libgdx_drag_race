@@ -16,8 +16,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.nopalsoft.dragracer.Assets;
 import com.nopalsoft.dragracer.MainStreet;
 import com.nopalsoft.dragracer.Settings;
-import com.nopalsoft.dragracer.objetos.SpeedBar;
-import com.nopalsoft.dragracer.scene2D.MarcoGameOver;
+import com.nopalsoft.dragracer.game_objects.SpeedBar;
 import com.nopalsoft.dragracer.scene2D.SwipeHorizontalTutorial;
 import com.nopalsoft.dragracer.scene2D.SwipeVerticalTutorial;
 import com.nopalsoft.dragracer.screens.MainMenuScreen;
@@ -31,21 +30,21 @@ public class GameScreen extends Screens {
     static final int STATE_GAME_OVER = 4;
     static int state;
 
-    int TIME_TO_START = 3;// Tiempo que aparece al inicio
+    int TIME_TO_START = 3;// Time that appears at the beginning
 
-    Label lbScore, lbCoin;
-    Table tbScores;
+    Label labelScore, labelCoin;
+    Table tableScores;
 
-    Label lbTryAgain;
-    Label lbShopScreen;
-    Label lbLeaderboard;
+    Label labelTryAgain;
+    Label labelShopScreen;
+    Label labelLeaderboard;
 
     SpeedBar speedBar;
     int score, coins;
     boolean canSuperSpeed;
-    Group gpPaused;
-    MarcoGameOver marcoGameOver;
-    Button btMusica;
+    Group groupPaused;
+    com.nopalsoft.dragracer.scene2D.GameOverGroup gameOverGroup;
+    Button buttonMusic;
     private final Stage stageGame;
     private final TrafficGame trafficGame;
 
@@ -58,52 +57,52 @@ public class GameScreen extends Screens {
         initUI();
 
         setReady();
-        Settings.numeroVecesJugadas++;
+        Settings.numberOfTimesPlayed++;
 
     }
 
     private void initUI() {
-        speedBar = new SpeedBar(TrafficGame.NUM_COINS_FOR_SUPERSPEED, 5, 720, 160, 20);
+        speedBar = new SpeedBar(TrafficGame.NUM_COINS_FOR_SUPER_SPEED, 5, 720, 160, 20);
 
-        lbScore = new Label("Distance 0m", Assets.labelStyleGrande);
-        lbScore.setFontScale(.8f);
+        labelScore = new Label("Distance 0m", Assets.labelStyleLarge);
+        labelScore.setFontScale(.8f);
 
-        lbCoin = new Label("0", Assets.labelStyleGrande);
-        lbCoin.setFontScale(.8f);
+        labelCoin = new Label("0", Assets.labelStyleLarge);
+        labelCoin.setFontScale(.8f);
 
-        Image imgCoin = new Image(Assets.coinFrente);
+        Image imageCoinFront = new Image(Assets.coinFront);
 
-        tbScores = new Table();
-        tbScores.setWidth(SCREEN_WIDTH);
-        tbScores.setPosition(0, SCREEN_HEIGHT - lbScore.getHeight() / 2);
-        tbScores.padLeft(5).padRight(5);
+        tableScores = new Table();
+        tableScores.setWidth(SCREEN_WIDTH);
+        tableScores.setPosition(0, SCREEN_HEIGHT - labelScore.getHeight() / 2);
+        tableScores.padLeft(5).padRight(5);
 
-        tbScores.add(lbScore).left();
-        tbScores.add(lbCoin).right().expand().padRight(5);
-        tbScores.add(imgCoin).right();
+        tableScores.add(labelScore).left();
+        tableScores.add(labelCoin).right().expand().padRight(5);
+        tableScores.add(imageCoinFront).right();
 
         // Gameover
-        lbTryAgain = new Label("Try again", Assets.labelStyleGrande);
-        lbTryAgain.setPosition(500, 310);
-        lbTryAgain.addListener(new ClickListener() {
+        labelTryAgain = new Label("Try again", Assets.labelStyleLarge);
+        labelTryAgain.setPosition(500, 310);
+        labelTryAgain.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changeScreenWithFadeOut(GameScreen.class, game);
             }
         });
 
-        lbShopScreen = new Label("Shop screen", Assets.labelStyleGrande);
-        lbShopScreen.setPosition(500, 210);
-        lbShopScreen.addListener(new ClickListener() {
+        labelShopScreen = new Label("Shop screen", Assets.labelStyleLarge);
+        labelShopScreen.setPosition(500, 210);
+        labelShopScreen.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changeScreenWithFadeOut(ShopScreen.class, game);
             }
         });
 
-        lbLeaderboard = new Label("Leaderboard", Assets.labelStyleGrande);
-        lbLeaderboard.setPosition(500, 110);
-        lbLeaderboard.addListener(new ClickListener() {
+        labelLeaderboard = new Label("Leaderboard", Assets.labelStyleLarge);
+        labelLeaderboard.setPosition(500, 110);
+        labelLeaderboard.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (game.gameServiceHandler.isSignedIn())
@@ -113,15 +112,15 @@ public class GameScreen extends Screens {
             }
         });
 
-        btMusica = new Button(Assets.styleButtonMusica);
-        btMusica.setPosition(5, 5);
-        btMusica.setChecked(!Settings.isMusicOn);
+        buttonMusic = new Button(Assets.styleButtonMusic);
+        buttonMusic.setPosition(5, 5);
+        buttonMusic.setChecked(!Settings.isMusicOn);
         Gdx.app.log("Musica", Settings.isMusicOn + "");
-        btMusica.addListener(new ClickListener() {
+        buttonMusic.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Settings.isMusicOn = !Settings.isMusicOn;
-                btMusica.setChecked(!Settings.isMusicOn);
+                buttonMusic.setChecked(!Settings.isMusicOn);
                 if (Settings.isMusicOn)
                     Assets.music.play();
                 else
@@ -130,27 +129,27 @@ public class GameScreen extends Screens {
             }
         });
 
-        entranceAction(lbTryAgain, 310, .25f);
-        entranceAction(lbShopScreen, 210, .5f);
-        entranceAction(lbLeaderboard, 110, .85f);
+        entranceAction(labelTryAgain, 310, .25f);
+        entranceAction(labelShopScreen, 210, .5f);
+        entranceAction(labelLeaderboard, 110, .85f);
 
-        setAnimationChangeColor(lbShopScreen);
-        setAnimationChangeColor(lbLeaderboard);
-        setAnimationChangeColor(lbTryAgain);
+        setAnimationChangeColor(labelShopScreen);
+        setAnimationChangeColor(labelLeaderboard);
+        setAnimationChangeColor(labelTryAgain);
 
         // Paused
-        gpPaused = new Group();
-        gpPaused.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+        groupPaused = new Group();
+        groupPaused.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        Image background = new Image(Assets.pixelNegro);
-        background.setSize(gpPaused.getWidth(), gpPaused.getHeight());
+        Image background = new Image(Assets.pixelBlack);
+        background.setSize(groupPaused.getWidth(), groupPaused.getHeight());
 
-        Label lblPaused = new Label("Game Paused\nTouch to resume", Assets.labelStyleGrande);
-        lblPaused.setPosition(gpPaused.getWidth() / 2f - lblPaused.getWidth() / 2f, gpPaused.getHeight() / 2f - lblPaused.getHeight() / 2f);
-        lblPaused.setAlignment(Align.center);
-        lblPaused.addAction(Actions.forever(Actions.sequence(Actions.alpha(.55f, .85f), Actions.alpha(1, .85f))));
-        gpPaused.addActor(lblPaused);
-        gpPaused.addListener(new ClickListener() {
+        Label labelPaused = new Label("Game Paused\nTouch to resume", Assets.labelStyleLarge);
+        labelPaused.setPosition(groupPaused.getWidth() / 2f - labelPaused.getWidth() / 2f, groupPaused.getHeight() / 2f - labelPaused.getHeight() / 2f);
+        labelPaused.setAlignment(Align.center);
+        labelPaused.addAction(Actions.forever(Actions.sequence(Actions.alpha(.55f, .85f), Actions.alpha(1, .85f))));
+        groupPaused.addActor(labelPaused);
+        groupPaused.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 setRunning();
@@ -187,18 +186,18 @@ public class GameScreen extends Screens {
             canSuperSpeed = true;
             new SwipeVerticalTutorial(stage);
         }
-        // if (!canSuperSpeed)// Si es posible no lo actualizo para qque solo se reinicia cuando haga uso del poder
-        speedBar.updateActualLife(trafficGame.numCoinsForSuperSpeed);
 
-        lbScore.setText("Distance " + score + "m");
-        lbCoin.setText(coins + "");
+        speedBar.updateActualLife(trafficGame.numberOfCoinsForSuperSpeed);
+
+        labelScore.setText("Distance " + score + "m");
+        labelCoin.setText(coins + "");
 
     }
 
     private void setRunning() {
         stage.clear();
         state = STATE_RUNNING;
-        stage.addActor(tbScores);
+        stage.addActor(tableScores);
         stage.addActor(speedBar);
     }
 
@@ -208,40 +207,40 @@ public class GameScreen extends Screens {
         game.gameServiceHandler.submitScore(score);
         Settings.coinsTotal += coins;
         stage.clear();
-        marcoGameOver = new MarcoGameOver(this, score, coins);
-        stage.addActor(marcoGameOver);
-        stage.addActor(lbTryAgain);
-        stage.addActor(lbLeaderboard);
-        stage.addActor(lbShopScreen);
-        stage.addActor(btMusica);
+        gameOverGroup = new com.nopalsoft.dragracer.scene2D.GameOverGroup(this, score, coins);
+        stage.addActor(gameOverGroup);
+        stage.addActor(labelTryAgain);
+        stage.addActor(labelLeaderboard);
+        stage.addActor(labelShopScreen);
+        stage.addActor(buttonMusic);
         game.reqHandler.showAdBanner();
     }
 
     private void setReady() {
         state = STATE_READY;
 
-        final Label lbContador = new Label(TIME_TO_START + "", Assets.labelStyleGrande);
-        lbContador.setFontScale(2.5f);
-        lbContador.setPosition(SCREEN_WIDTH / 2f - lbContador.getWidth() / 2f, 600);
-        lbContador.setAlignment(Align.center);
-        lbContador.getColor().a = 0;
-        lbContador.addAction(Actions.repeat(3, Actions.sequence(Actions.fadeIn(1), Actions.run(new Runnable() {
+        final Label labelCounter = new Label(TIME_TO_START + "", Assets.labelStyleLarge);
+        labelCounter.setFontScale(2.5f);
+        labelCounter.setPosition(SCREEN_WIDTH / 2f - labelCounter.getWidth() / 2f, 600);
+        labelCounter.setAlignment(Align.center);
+        labelCounter.getColor().a = 0;
+        labelCounter.addAction(Actions.repeat(3, Actions.sequence(Actions.fadeIn(1), Actions.run(new Runnable() {
             @Override
             public void run() {
-                if (TIME_TO_START == 1)// Porque la siguiente vez que se llama se convierte en 0
+                if (TIME_TO_START == 1)// Because the next time it is called it becomes 0.
                     setRunning();
                 TIME_TO_START--;
-                lbContador.setText(TIME_TO_START + "");
-                lbContador.getColor().a = 0;
+                labelCounter.setText(TIME_TO_START + "");
+                labelCounter.getColor().a = 0;
 
             }
         }))));
 
-        if (Settings.numeroVecesJugadas < 5) {
+        if (Settings.numberOfTimesPlayed < 5) {
             stage.addActor(new SwipeHorizontalTutorial());
         }
 
-        stage.addActor(lbContador);
+        stage.addActor(labelCounter);
 
     }
 
@@ -249,7 +248,7 @@ public class GameScreen extends Screens {
         if (state == STATE_RUNNING || state == STATE_READY) {
             stage.clear();
             state = STATE_PAUSED;
-            stage.addActor(gpPaused);
+            stage.addActor(groupPaused);
         }
 
     }
@@ -265,7 +264,7 @@ public class GameScreen extends Screens {
     public void hide() {
         super.hide();
         stageGame.dispose();
-        if (Settings.numeroVecesJugadas % Settings.TIMES_TO_SHOW_AD == 0)
+        if (Settings.numberOfTimesPlayed % Settings.TIMES_TO_SHOW_AD == 0)
             game.reqHandler.showInterstitial();
 
         game.reqHandler.hideAdBanner();
@@ -279,13 +278,13 @@ public class GameScreen extends Screens {
 
     @Override
     public void left() {
-        trafficGame.oCar.tryMoveLeft();
+        trafficGame.playerCar.tryMoveLeft();
         super.left();
     }
 
     @Override
     public void right() {
-        trafficGame.oCar.tryMoveRight();
+        trafficGame.playerCar.tryMoveRight();
         super.right();
     }
 
@@ -301,9 +300,9 @@ public class GameScreen extends Screens {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Keys.LEFT || keycode == Keys.A)
-            trafficGame.oCar.tryMoveLeft();
+            trafficGame.playerCar.tryMoveLeft();
         else if (keycode == Keys.RIGHT || keycode == Keys.D)
-            trafficGame.oCar.tryMoveRight();
+            trafficGame.playerCar.tryMoveRight();
         else if (keycode == Keys.ESCAPE || keycode == Keys.BACK)
             changeScreenWithFadeOut(MainMenuScreen.class, game);
         else if (keycode == Keys.SPACE)

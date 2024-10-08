@@ -7,11 +7,9 @@ public interface RequestHandler {
 
     void showFacebook();
 
-    void showMoreGames();
+    void shareOnFacebook(final String message);
 
-    void shareOnFacebook(final String mensaje);
-
-    void shareOnTwitter(final String mensaje);
+    void shareOnTwitter(final String message);
 
     void removeAds();
 
@@ -19,6 +17,6 @@ public interface RequestHandler {
 
     void hideAdBanner();
 
-    void buy50milCoins();
+    void buy50millionCoins();
 
 }

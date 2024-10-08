@@ -10,6 +10,7 @@ import com.nopalsoft.dragracer.screens.MainMenuScreen;
 import com.nopalsoft.dragracer.screens.Screens;
 
 public class MainStreet extends Game {
+
     public final GameServicesHandler gameServiceHandler;
     public final RequestHandler reqHandler;
     public Stage stage;
@@ -22,8 +23,7 @@ public class MainStreet extends Game {
 
     @Override
     public void create() {
-        stage = new Stage(new StretchViewport(Screens.SCREEN_WIDTH,
-                Screens.SCREEN_HEIGHT));
+        stage = new Stage(new StretchViewport(Screens.SCREEN_WIDTH, Screens.SCREEN_HEIGHT));
 
         batcher = new SpriteBatch();
         Assets.load();

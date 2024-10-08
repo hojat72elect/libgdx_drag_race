@@ -4,51 +4,55 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.nopalsoft.dragracer.Assets;
-import com.nopalsoft.dragracer.objetos.EnemyCar;
-import com.nopalsoft.dragracer.objetos.InfiniteScrollBg;
-import com.nopalsoft.dragracer.objetos.Moneda;
-import com.nopalsoft.dragracer.objetos.PlayerCar;
+import com.nopalsoft.dragracer.game_objects.EnemyCar;
+import com.nopalsoft.dragracer.game_objects.PlayerCar;
 import com.nopalsoft.dragracer.screens.Screens;
 
 import java.util.Iterator;
 
 public class TrafficGame extends Table {
+
     public static final int STATE_RUNNING = 0;
     public static final int STATE_GAMEOVER = 1;
-    public final static int NUM_COINS_FOR_SUPERSPEED = 10;
+
+    public final static int NUM_COINS_FOR_SUPER_SPEED = 10;
+
     public final float lane2 = 390;
     public final float lane1 = 240;
     public final float lane0 = 90;
-    final float WIDTH = Screens.WORLD_WIDTH;
-    final float HEIGHT = Screens.WORLD_HEIGHT;
+
+    final float width = Screens.WORLD_WIDTH;
+    final float height = Screens.WORLD_HEIGHT;
+
     final float TIME_TO_SPAWN_CAR = 2;
     final float TIME_TO_SPAWN_COIN = 1f;
     final float DURATION_SUPER_SPEED = 5;
-    private final InfiniteScrollBg backgroundRoad;
-    private final Array<EnemyCar> arrEnemyCars;
-    private final Array<Moneda> arrCoins;
+
+    private final com.nopalsoft.dragracer.game_objects.InfiniteScrollBackground backgroundRoad;
+    private final Array<EnemyCar> arrayEnemyCars;
+    private final Array<com.nopalsoft.dragracer.game_objects.Coin> arrCoins;
     public int state;
-    public int numCoinsForSuperSpeed;
-    public PlayerCar oCar;
+    public int numberOfCoinsForSuperSpeed;
+    public PlayerCar playerCar;
     boolean canSuperSpeed;
     float timeToSpawnCar;
     float timeToSpawnCoin;
     float durationSuperSpeed = 0;
     boolean isSuperSpeed;
-    float velocidadActual = 5;
+    float currentSpeed = 5;
     float score;
     int coins;
 
     public TrafficGame() {
-        setBounds(0, 0, WIDTH, HEIGHT);
+        setBounds(0, 0, width, height);
         setClip(true);
-        backgroundRoad = new InfiniteScrollBg(getWidth(), getHeight());
+        backgroundRoad = new com.nopalsoft.dragracer.game_objects.InfiniteScrollBackground(getWidth(), getHeight());
         addActor(backgroundRoad);
 
-        oCar = new PlayerCar(this);
-        addActor(oCar);
-        arrEnemyCars = new Array<EnemyCar>();
-        arrCoins = new Array<Moneda>();
+        playerCar = new PlayerCar(this);
+        addActor(playerCar);
+        arrayEnemyCars = new Array<>();
+        arrCoins = new Array<>();
 
         state = STATE_RUNNING;
     }
@@ -62,27 +66,23 @@ public class TrafficGame extends Table {
             stopSuperSpeed();
         }
 
-        if (numCoinsForSuperSpeed >= NUM_COINS_FOR_SUPERSPEED) {
+        if (numberOfCoinsForSuperSpeed >= NUM_COINS_FOR_SUPER_SPEED) {
             canSuperSpeed = true;
         }
 
-        updateCar(delta);
+
         updateEnemyCar(delta);
         updateMonedas(delta);
-        score += delta * velocidadActual;
+        score += delta * currentSpeed;
 
-        if (oCar.state == PlayerCar.STATE_DEAD) {
+        if (playerCar.state == PlayerCar.STATE_DEAD) {
             state = STATE_GAMEOVER;
         }
 
     }
 
-    private void updateCar(float delta) {
-
-    }
-
     private void updateEnemyCar(float delta) {
-        // Primero creo un carro si es necesario
+        // I first create a car if necessary.
 
         timeToSpawnCar += delta;
         if (timeToSpawnCar >= TIME_TO_SPAWN_CAR) {
@@ -91,11 +91,11 @@ public class TrafficGame extends Table {
 
         }
 
-        Iterator<EnemyCar> iter = arrEnemyCars.iterator();
-        while (iter.hasNext()) {
-            EnemyCar enemyCar = iter.next();
+        Iterator<EnemyCar> iteratorEnemyCar = arrayEnemyCars.iterator();
+        while (iteratorEnemyCar.hasNext()) {
+            EnemyCar enemyCar = iteratorEnemyCar.next();
             if (enemyCar.getBounds().y + enemyCar.getHeight() <= 0) {
-                iter.remove();
+                iteratorEnemyCar.remove();
                 removeActor(enemyCar);
                 continue;
             }
@@ -104,33 +104,21 @@ public class TrafficGame extends Table {
                 enemyCar.setSpeed();
         }
 
-        // Despues checo las colisiones con el jugador
-        iter = arrEnemyCars.iterator();
-        while (iter.hasNext()) {
-            EnemyCar enemyCar = iter.next();
-            if (enemyCar.getBounds().overlaps(oCar.getBounds())) {
-                iter.remove();
+        // Then I check the collisions with the player
+        iteratorEnemyCar = arrayEnemyCars.iterator();
+        while (iteratorEnemyCar.hasNext()) {
+            EnemyCar enemyCar = iteratorEnemyCar.next();
+            if (enemyCar.getBounds().overlaps(playerCar.getBounds())) {
+                iteratorEnemyCar.remove();
 
-                if (enemyCar.getX() > oCar.getX()) {
-                    if (enemyCar.getY() > oCar.getY()) {
-                        enemyCar.crash(true, true);
-                        if (!isSuperSpeed)
-                            oCar.crash(false, true);
-                    } else {
-                        enemyCar.crash(true, false);
-                        if (!isSuperSpeed)
-                            oCar.crash(false, true);
-                    }
+                if (enemyCar.getX() > playerCar.getX()) {
+                    enemyCar.crash(true, enemyCar.getY() > playerCar.getY());
+                    if (!isSuperSpeed)
+                        playerCar.crash(false, true);
                 } else {
-                    if (enemyCar.getY() > oCar.getY()) {
-                        enemyCar.crash(false, true);
-                        if (!isSuperSpeed)
-                            oCar.crash(true, true);
-                    } else {
-                        enemyCar.crash(false, false);
-                        if (!isSuperSpeed)
-                            oCar.crash(true, true);
-                    }
+                    enemyCar.crash(false, enemyCar.getY() > playerCar.getY());
+                    if (!isSuperSpeed)
+                        playerCar.crash(true, true);
                 }
                 Assets.soundCrash.stop();
                 Assets.playSound(Assets.soundCrash);
@@ -144,37 +132,32 @@ public class TrafficGame extends Table {
 
         timeToSpawnCoin += delta;
 
-        // if (isSuperSpeed)
-        // timeToSpawnCoin += delta * 5;
-
         if (timeToSpawnCoin >= TIME_TO_SPAWN_COIN) {
             timeToSpawnCoin -= TIME_TO_SPAWN_COIN;
-            spwanCoin();
+            spawnCoin();
         }
 
-        Iterator<Moneda> iter = arrCoins.iterator();
-        while (iter.hasNext()) {
-            Moneda obj = iter.next();
+        Iterator<com.nopalsoft.dragracer.game_objects.Coin> iterator = arrCoins.iterator();
+        while (iterator.hasNext()) {
+            com.nopalsoft.dragracer.game_objects.Coin obj = iterator.next();
             if (obj.getBounds().y + obj.getHeight() <= 0) {
-                iter.remove();
+                iterator.remove();
                 removeActor(obj);
                 continue;
             }
-            // Veo si estan tocando mi carro
-            if (oCar.getBounds().overlaps(obj.getBounds())) {
-                iter.remove();
+            // I see if they are touching my car
+            if (playerCar.getBounds().overlaps(obj.getBounds())) {
+                iterator.remove();
                 removeActor(obj);
                 coins++;
-                numCoinsForSuperSpeed++;
+                numberOfCoinsForSuperSpeed++;
                 continue;
             }
 
-            // Veo si esta tocando a un enemigo
-            Iterator<EnemyCar> iterEnemy = arrEnemyCars.iterator();
-            while (iterEnemy.hasNext()) {
-                EnemyCar objEnemy = iterEnemy.next();
+            // I see if it's touching an enemy
+            for (EnemyCar objEnemy : arrayEnemyCars) {
                 if (obj.getBounds().overlaps(objEnemy.getBounds())) {
-                    iter.remove();
+                    iterator.remove();
                     removeActor(obj);
                     break;
                 }
@@ -191,15 +174,15 @@ public class TrafficGame extends Table {
         canSuperSpeed = false;
         durationSuperSpeed = 0;
         isSuperSpeed = true;
-        velocidadActual = 30;
-        numCoinsForSuperSpeed = 0;
+        currentSpeed = 30;
+        numberOfCoinsForSuperSpeed = 0;
         backgroundRoad.setSpeed();
 
     }
 
     public void stopSuperSpeed() {
         isSuperSpeed = false;
-        velocidadActual = 5;
+        currentSpeed = 5;
         backgroundRoad.stopSpeed();
     }
 
@@ -213,11 +196,11 @@ public class TrafficGame extends Table {
         if (lane == 2)
             x = lane2;
         EnemyCar enemyCar = new EnemyCar(x, getHeight());
-        arrEnemyCars.add(enemyCar);
+        arrayEnemyCars.add(enemyCar);
         addActor(enemyCar);
     }
 
-    private void spwanCoin() {
+    private void spawnCoin() {
         int lane = MathUtils.random(0, 2);
         float x = 0;
         if (lane == 0)
@@ -226,7 +209,7 @@ public class TrafficGame extends Table {
             x = lane1;
         if (lane == 2)
             x = lane2;
-        Moneda obj = new Moneda(x, getHeight());
+        com.nopalsoft.dragracer.game_objects.Coin obj = new com.nopalsoft.dragracer.game_objects.Coin(x, getHeight());
         arrCoins.add(obj);
         addActor(obj);
     }

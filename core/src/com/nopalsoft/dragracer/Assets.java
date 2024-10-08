@@ -15,203 +15,204 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Assets {
 
-    public static BitmapFont fontGrande;
-    public static BitmapFont fontChico;
+    public static BitmapFont fontLarge;
+    public static BitmapFont fontSmall;
 
     public static Animation<TextureRegion> newExplosion;
 
-    public static NinePatchDrawable pixelNegro;
-    public static TextureRegionDrawable fondoPuntuaciones;
+    public static NinePatchDrawable pixelBlack;
+    public static TextureRegionDrawable scoresBackground;
 
-    public static NinePatchDrawable separadorHorizontal;
-    public static NinePatchDrawable separadorVertical;
+    public static NinePatchDrawable horizontalSeparator;
+    public static NinePatchDrawable verticalSeparator;
 
-    public static AtlasRegion calle;
+    public static AtlasRegion street;
     public static AtlasRegion coin;
-    public static AtlasRegion coinFrente;
+    public static AtlasRegion coinFront;
 
-    public static TextureRegionDrawable titulo;
-
-    public static TextureRegionDrawable btAtras;
-    public static TextureRegionDrawable btNoAds;
-    public static TextureRegionDrawable btFacebook;
-    public static TextureRegionDrawable btTwitter;
-
+    public static TextureRegionDrawable title;
+    public static TextureRegionDrawable buttonBack;
+    public static TextureRegionDrawable buttonNoAds;
+    public static TextureRegionDrawable buttonFacebook;
+    public static TextureRegionDrawable buttonTwitter;
     public static TextureRegionDrawable upgradeOn;
     public static TextureRegionDrawable upgradeOff;
-
     public static TextureRegionDrawable swipeHand;
     public static TextureRegionDrawable swipeHandDown;
     public static TextureRegionDrawable swipeArrows;
 
-    // carros
-    public static AtlasRegion carroDiablo;
-    public static AtlasRegion carroBanshee;
-    public static AtlasRegion carroTurismo;
-    public static AtlasRegion carroBullet;
-    public static AtlasRegion carroTornado;
+    // All cars we have in this game.
+    public static AtlasRegion carDevil;
+    public static AtlasRegion carBanshee;
+    public static AtlasRegion carTourism;
+    public static AtlasRegion carBullet;
+    public static AtlasRegion carTornado;
+    public static AtlasRegion carAudiS5;
+    public static AtlasRegion carBmwX6;
+    public static AtlasRegion carChevroletCrossfire;
+    public static AtlasRegion carCitroenC4;
+    public static AtlasRegion carDodgeCharger;
+    public static AtlasRegion carFiat500Lounge;
+    public static AtlasRegion carHondaCRV;
+    public static AtlasRegion carMazda6;
+    public static AtlasRegion carMazdaRX8;
+    public static AtlasRegion carSeatIbiza;
+    public static AtlasRegion carVolkswagenScirocco;
 
-    public static AtlasRegion audiS5;
-    public static AtlasRegion bmwX6;
-    public static AtlasRegion chevroletCrossfire;
-    public static AtlasRegion citroenC4;
-    public static AtlasRegion dodgeCharger;
-    public static AtlasRegion fiat500Lounge;
-    public static AtlasRegion hondaCRV;
-    public static AtlasRegion mazda6;
-    public static AtlasRegion mazdaRX8;
-    public static AtlasRegion seatIbiza;
-    public static AtlasRegion volkswagenScirocco;
-
-    // Estilos
-    public static LabelStyle labelStyleGrande;
-    public static LabelStyle labelStyleChico;
+    // All kinds of styles used in this game
+    public static LabelStyle labelStyleLarge;
+    public static LabelStyle labelStyleSmall;
     public static ScrollPaneStyle styleScrollPane;
     public static TextButtonStyle styleTextButtonBuy;
     public static TextButtonStyle styleTextButtonPurchased;
     public static TextButtonStyle styleTextButtonSelected;
-    public static ButtonStyle styleButtonMusica;
-    public static AtlasRegion barraMarcadorRojo;
-    public static AtlasRegion barraMarcadorVerde;
+    public static ButtonStyle styleButtonMusic;
+
+    public static AtlasRegion barMarkedRed;
+    public static AtlasRegion barMarkedGreen;
+
+    // Sounds and music
     public static Sound soundTurn1;
     public static Sound soundTurn2;
     public static Sound soundCrash;
     public static Music music;
+
     static TextureAtlas atlas;
 
-    private static void cargarFont() {
-        fontGrande = new BitmapFont(Gdx.files.internal("data/font.fnt"),
-                atlas.findRegion("font"));
+    private static void loadFonts() {
+        fontLarge = new BitmapFont(
+                Gdx.files.internal("data/font.fnt"),
+                atlas.findRegion("font")
+        );
 
-        fontChico = new BitmapFont(Gdx.files.internal("data/fontChico.fnt"),
-                atlas.findRegion("fontChico"));
+        fontSmall = new BitmapFont(
+                Gdx.files.internal("data/fontChico.fnt"),
+                atlas.findRegion("fontChico")
+        );
 
     }
 
-    private static void cargarEstilos() {
-        labelStyleGrande = new LabelStyle(fontGrande, Color.WHITE);
-        labelStyleChico = new LabelStyle(fontChico, Color.WHITE);
+    private static void loadStyles() {
+        labelStyleLarge = new LabelStyle(fontLarge, Color.WHITE);
+        labelStyleSmall = new LabelStyle(fontSmall, Color.WHITE);
 
-        separadorHorizontal = new NinePatchDrawable(new NinePatch(
-                atlas.findRegion("Shop/separadorHorizontal"), 0, 1, 0, 0));
-        separadorVertical = new NinePatchDrawable(new NinePatch(
-                atlas.findRegion("Shop/separadorVertical"), 0, 1, 0, 0));
+        horizontalSeparator = new NinePatchDrawable(
+                new NinePatch(
+                        atlas.findRegion("Shop/separadorHorizontal"),
+                        0,
+                        1,
+                        0,
+                        0
+                )
+        );
+        verticalSeparator = new NinePatchDrawable(
+                new NinePatch(
+                        atlas.findRegion("Shop/separadorVertical"),
+                        0,
+                        1,
+                        0,
+                        0
+                )
+        );
 
-        /* Button Buy */
-        TextureRegionDrawable btBuy = new TextureRegionDrawable(
-                atlas.findRegion("Shop/btBuy"));
-        styleTextButtonBuy = new TextButtonStyle(btBuy, null, null, fontChico);
+        // Button Buy
+        TextureRegionDrawable buttonBuy = new TextureRegionDrawable(atlas.findRegion("Shop/btBuy"));
+        styleTextButtonBuy = new TextButtonStyle(buttonBuy, null, null, fontSmall);
 
-        /* Button Purchased */
-        TextureRegionDrawable btPurchased = new TextureRegionDrawable(
-                atlas.findRegion("Shop/btPurchased"));
-        styleTextButtonPurchased = new TextButtonStyle(btPurchased, null, null,
-                fontChico);
+        // Button Purchase
+        TextureRegionDrawable buttonPurchase = new TextureRegionDrawable(atlas.findRegion("Shop/btPurchased"));
+        styleTextButtonPurchased = new TextButtonStyle(buttonPurchase, null, null, fontSmall);
 
-        /* Button Selected */
-        TextureRegionDrawable btSelected = new TextureRegionDrawable(
-                atlas.findRegion("Shop/btSelected"));
-        styleTextButtonSelected = new TextButtonStyle(btSelected, null, null,
-                fontChico);
+        // Button Selected
+        TextureRegionDrawable buttonSelected = new TextureRegionDrawable(atlas.findRegion("Shop/btSelected"));
+        styleTextButtonSelected = new TextButtonStyle(buttonSelected, null, null, fontSmall);
 
-        styleScrollPane = new ScrollPaneStyle(null, null, null, null,
-                separadorVertical);
+        styleScrollPane = new ScrollPaneStyle(null, null, null, null, verticalSeparator);
 
-        /* Button Musica */
-        TextureRegionDrawable btMusicOn = new TextureRegionDrawable(
-                atlas.findRegion("MenuPrincipal/btMusica"));
-        TextureRegionDrawable btMusicOff = new TextureRegionDrawable(
-                atlas.findRegion("MenuPrincipal/btSinMusica"));
-        styleButtonMusica = new ButtonStyle(btMusicOn, null, btMusicOff);
+        // Buttons for turning music on or off
+        TextureRegionDrawable buttonMusicOn = new TextureRegionDrawable(atlas.findRegion("MenuPrincipal/btMusica"));
+        TextureRegionDrawable buttonMusicOff = new TextureRegionDrawable(atlas.findRegion("MenuPrincipal/btSinMusica"));
+        styleButtonMusic = new ButtonStyle(buttonMusicOn, null, buttonMusicOff);
     }
 
     public static void load() {
         atlas = new TextureAtlas(Gdx.files.internal("data/atlasMap.txt"));
-        cargarFont();
-        cargarEstilos();
+        loadFonts();
+        loadStyles();
 
-        titulo = new TextureRegionDrawable(atlas.findRegion("titulo2"));
+        title = new TextureRegionDrawable(atlas.findRegion("titulo2"));
 
-        pixelNegro = new NinePatchDrawable(new NinePatch(
-                atlas.findRegion("pixelNegro"), 1, 1, 0, 0));
-        fondoPuntuaciones = new TextureRegionDrawable(
-                atlas.findRegion("fondoPuntuaciones"));
+        pixelBlack = new NinePatchDrawable(new NinePatch(atlas.findRegion("pixelNegro"), 1, 1, 0, 0));
+        scoresBackground = new TextureRegionDrawable(atlas.findRegion("fondoPuntuaciones"));
 
         coin = atlas.findRegion("coin");
-        coinFrente = atlas.findRegion("coinFrente");
+        coinFront = atlas.findRegion("coinFrente");
 
-        barraMarcadorRojo = atlas.findRegion("barraMarcadorRojo");
-        barraMarcadorVerde = atlas.findRegion("barraMarcadorVerde");
+        barMarkedRed = atlas.findRegion("barraMarcadorRojo");
+        barMarkedGreen = atlas.findRegion("barraMarcadorVerde");
 
-        calle = atlas.findRegion("calle");
-        carroDiablo = atlas.findRegion("Carros/diablo");
-        carroBanshee = atlas.findRegion("Carros/banshee");
-        carroTurismo = atlas.findRegion("Carros/turismo");
-        carroBullet = atlas.findRegion("Carros/bullet");
-        carroTornado = atlas.findRegion("Carros/tornado");
+        street = atlas.findRegion("calle");
+        carDevil = atlas.findRegion("Carros/diablo");
+        carBanshee = atlas.findRegion("Carros/banshee");
+        carTourism = atlas.findRegion("Carros/turismo");
+        carBullet = atlas.findRegion("Carros/bullet");
+        carTornado = atlas.findRegion("Carros/tornado");
+        carAudiS5 = atlas.findRegion("Carros/Audi S5");
+        carBmwX6 = atlas.findRegion("Carros/BMW X6");
+        carChevroletCrossfire = atlas.findRegion("Carros/Chevrolet Crossfire");
+        carCitroenC4 = atlas.findRegion("Carros/Citroen C4");
+        carDodgeCharger = atlas.findRegion("Carros/Dodge Charger");
+        carFiat500Lounge = atlas.findRegion("Carros/Fiat 500 Lounge");
+        carHondaCRV = atlas.findRegion("Carros/Honda CRV");
+        carMazda6 = atlas.findRegion("Carros/Mazda 6");
+        carMazdaRX8 = atlas.findRegion("Carros/Mazda RX8");
+        carSeatIbiza = atlas.findRegion("Carros/Seat Ibiza");
+        carVolkswagenScirocco = atlas.findRegion("Carros/Volkswagen Scirocco");
 
-        audiS5 = atlas.findRegion("Carros/Audi S5");
-        bmwX6 = atlas.findRegion("Carros/BMW X6");
-        chevroletCrossfire = atlas.findRegion("Carros/Chevrolet Crossfire");
-        citroenC4 = atlas.findRegion("Carros/Citroen C4");
-        dodgeCharger = atlas.findRegion("Carros/Dodge Charger");
-        fiat500Lounge = atlas.findRegion("Carros/Fiat 500 Lounge");
-        hondaCRV = atlas.findRegion("Carros/Honda CRV");
-        mazda6 = atlas.findRegion("Carros/Mazda 6");
-        mazdaRX8 = atlas.findRegion("Carros/Mazda RX8");
-        seatIbiza = atlas.findRegion("Carros/Seat Ibiza");
-        volkswagenScirocco = atlas.findRegion("Carros/Volkswagen Scirocco");
+        // The explosion animation
+        AtlasRegion newExplosion1 = atlas.findRegion("Animaciones/newExplosion1");
+        AtlasRegion newExplosion2 = atlas.findRegion("Animaciones/newExplosion2");
+        AtlasRegion newExplosion3 = atlas.findRegion("Animaciones/newExplosion3");
+        AtlasRegion newExplosion4 = atlas.findRegion("Animaciones/newExplosion4");
+        AtlasRegion newExplosion5 = atlas.findRegion("Animaciones/newExplosion5");
+        AtlasRegion newExplosion6 = atlas.findRegion("Animaciones/newExplosion6");
+        AtlasRegion newExplosion7 = atlas.findRegion("Animaciones/newExplosion7");
+        AtlasRegion newExplosion8 = atlas.findRegion("Animaciones/newExplosion8");
+        AtlasRegion newExplosion9 = atlas.findRegion("Animaciones/newExplosion9");
+        AtlasRegion newExplosion10 = atlas.findRegion("Animaciones/newExplosion10");
+        AtlasRegion newExplosion11 = atlas.findRegion("Animaciones/newExplosion11");
+        AtlasRegion newExplosion12 = atlas.findRegion("Animaciones/newExplosion12");
+        AtlasRegion newExplosion13 = atlas.findRegion("Animaciones/newExplosion13");
+        AtlasRegion newExplosion14 = atlas.findRegion("Animaciones/newExplosion14");
+        AtlasRegion newExplosion15 = atlas.findRegion("Animaciones/newExplosion15");
+        AtlasRegion newExplosion16 = atlas.findRegion("Animaciones/newExplosion16");
+        AtlasRegion newExplosion17 = atlas.findRegion("Animaciones/newExplosion17");
+        AtlasRegion newExplosion18 = atlas.findRegion("Animaciones/newExplosion18");
+        AtlasRegion newExplosion19 = atlas.findRegion("Animaciones/newExplosion19");
 
-        AtlasRegion newExpl1 = atlas.findRegion("Animaciones/newExplosion1");
-        AtlasRegion newExpl2 = atlas.findRegion("Animaciones/newExplosion2");
-        AtlasRegion newExpl3 = atlas.findRegion("Animaciones/newExplosion3");
-        AtlasRegion newExpl4 = atlas.findRegion("Animaciones/newExplosion4");
-        AtlasRegion newExpl5 = atlas.findRegion("Animaciones/newExplosion5");
-        AtlasRegion newExpl6 = atlas.findRegion("Animaciones/newExplosion6");
-        AtlasRegion newExpl7 = atlas.findRegion("Animaciones/newExplosion7");
-        AtlasRegion newExpl8 = atlas.findRegion("Animaciones/newExplosion8");
-        AtlasRegion newExpl9 = atlas.findRegion("Animaciones/newExplosion9");
-        AtlasRegion newExpl10 = atlas.findRegion("Animaciones/newExplosion10");
-        AtlasRegion newExpl11 = atlas.findRegion("Animaciones/newExplosion11");
-        AtlasRegion newExpl12 = atlas.findRegion("Animaciones/newExplosion12");
-        AtlasRegion newExpl13 = atlas.findRegion("Animaciones/newExplosion13");
-        AtlasRegion newExpl14 = atlas.findRegion("Animaciones/newExplosion14");
-        AtlasRegion newExpl15 = atlas.findRegion("Animaciones/newExplosion15");
-        AtlasRegion newExpl16 = atlas.findRegion("Animaciones/newExplosion16");
-        AtlasRegion newExpl17 = atlas.findRegion("Animaciones/newExplosion17");
-        AtlasRegion newExpl18 = atlas.findRegion("Animaciones/newExplosion18");
-        AtlasRegion newExpl19 = atlas.findRegion("Animaciones/newExplosion19");
-        newExplosion = new Animation(0.05f, newExpl1, newExpl2, newExpl3,
-                newExpl4, newExpl5, newExpl6, newExpl7, newExpl8, newExpl9,
-                newExpl10, newExpl11, newExpl12, newExpl13, newExpl14,
-                newExpl15, newExpl16, newExpl17, newExpl18, newExpl19);
+        newExplosion = new Animation(0.05f, newExplosion1, newExplosion2, newExplosion3,
+                newExplosion4, newExplosion5, newExplosion6, newExplosion7, newExplosion8, newExplosion9,
+                newExplosion10, newExplosion11, newExplosion12, newExplosion13, newExplosion14,
+                newExplosion15, newExplosion16, newExplosion17, newExplosion18, newExplosion19);
 
-        btAtras = new TextureRegionDrawable(atlas.findRegion("Shop/btAtras2"));
-        btNoAds = new TextureRegionDrawable(atlas.findRegion("Shop/btNoAds"));
-        upgradeOff = new TextureRegionDrawable(
-                atlas.findRegion("Shop/upgradeOff"));
-        upgradeOn = new TextureRegionDrawable(
-                atlas.findRegion("Shop/upgradeOn"));
+        // All the buttons
+        buttonBack = new TextureRegionDrawable(atlas.findRegion("Shop/btAtras2"));
+        buttonNoAds = new TextureRegionDrawable(atlas.findRegion("Shop/btNoAds"));
+        upgradeOff = new TextureRegionDrawable(atlas.findRegion("Shop/upgradeOff"));
+        upgradeOn = new TextureRegionDrawable(atlas.findRegion("Shop/upgradeOn"));
+        buttonFacebook = new TextureRegionDrawable(atlas.findRegion("MenuPrincipal/btFacebook"));
+        buttonTwitter = new TextureRegionDrawable(atlas.findRegion("MenuPrincipal/btTwitter"));
 
-        btFacebook = new TextureRegionDrawable(
-                atlas.findRegion("MenuPrincipal/btFacebook"));
-        btTwitter = new TextureRegionDrawable(
-                atlas.findRegion("MenuPrincipal/btTwitter"));
-
+        // swipe drawables (we use the as a HUD)
         swipeHand = new TextureRegionDrawable(atlas.findRegion("swipeHand"));
-        swipeHandDown = new TextureRegionDrawable(
-                atlas.findRegion("swipeHandDown"));
+        swipeHandDown = new TextureRegionDrawable(atlas.findRegion("swipeHandDown"));
         swipeArrows = new TextureRegionDrawable(atlas.findRegion("swipeArrows"));
 
-        soundTurn1 = Gdx.audio.newSound(Gdx.files
-                .internal("data/Sounds/turn1.mp3"));
-        soundTurn2 = Gdx.audio.newSound(Gdx.files
-                .internal("data/Sounds/turn2.mp3"));
-        soundCrash = Gdx.audio.newSound(Gdx.files
-                .internal("data/Sounds/crash.mp3"));
-
-        music = Gdx.audio.newMusic(Gdx.files
-                .internal("data/Sounds/DST-BreakOut.mp3"));
+        // Sounds and musics
+        soundTurn1 = Gdx.audio.newSound(Gdx.files.internal("data/Sounds/turn1.mp3"));
+        soundTurn2 = Gdx.audio.newSound(Gdx.files.internal("data/Sounds/turn2.mp3"));
+        soundCrash = Gdx.audio.newSound(Gdx.files.internal("data/Sounds/crash.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("data/Sounds/DST-BreakOut.mp3"));
         music.setLooping(true);
 
         Settings.load();
@@ -221,9 +222,9 @@ public class Assets {
 
     }
 
-    public static void playSound(Sound son) {
+    public static void playSound(Sound sound) {
         if (Settings.isMusicOn) {
-            son.play(1);
+            sound.play(1);
         }
     }
 }

@@ -2,38 +2,14 @@ package com.nopalsoft.dragracer.handlers;
 
 public interface GameServicesHandler {
 
-    /**
-     * Este metodo abstrae a GPGS o a AGC
-     *
-     * @param tiempoLap
-     */
+    // This method abstracts away GPGS or AGC.
     void submitScore(long score);
 
-    /**
-     * Este metodo abstrae a GPGS o a AGC
-     *
-     * @param score
-     */
-    void unlockAchievement(String achievementId);
-
-    /**
-     * Este metodo abstrae a GPGS o a AGC
-     *
-     * @param score
-     */
+    // This method abstracts away GPGS or AGC.
     void getLeaderboard();
-
-    /**
-     * Este metodo abstrae a GPGS o a AGC
-     *
-     * @param score
-     */
-    void getAchievements();
 
     boolean isSignedIn();
 
     void signIn();
-
-    void signOut();
 
 }

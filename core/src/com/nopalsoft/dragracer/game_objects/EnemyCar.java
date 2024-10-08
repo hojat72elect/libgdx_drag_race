@@ -1,4 +1,4 @@
-package com.nopalsoft.dragracer.objetos;
+package com.nopalsoft.dragracer.game_objects;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,13 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.nopalsoft.dragracer.Assets;
 import com.nopalsoft.dragracer.Settings;
-import com.nopalsoft.dragracer.shop.PersonajesSubMenu;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class EnemyCar extends Actor {
 
-    int tipo;
+    int type;
     boolean isSuperSpeed;
     TextureRegion keyframe;
     ShapeRenderer renders = new ShapeRenderer();
@@ -26,95 +25,95 @@ public class EnemyCar extends Actor {
 
     public EnemyCar(float x, float y) {
 
-        tipo = MathUtils.random(16);
+        type = MathUtils.random(16);
 
         float width, height;
 
-        switch (tipo) {
-            case PersonajesSubMenu.SKIN_CARRO_DIABLO:
-                keyframe = Assets.carroDiablo;
+        switch (type) {
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_DEVIL:
+                keyframe = Assets.carDevil;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_BANSHEE:
-                keyframe = Assets.carroBanshee;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_BANSHEE:
+                keyframe = Assets.carBanshee;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_TORNADO:
-                keyframe = Assets.carroTornado;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_TORNADO:
+                keyframe = Assets.carTornado;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_TURISMO:
-                keyframe = Assets.carroTurismo;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_TURISM:
+                keyframe = Assets.carTourism;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_AUDI_S5:
-                keyframe = Assets.audiS5;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_AUDI_S5:
+                keyframe = Assets.carAudiS5;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_BMW_X6:
-                keyframe = Assets.bmwX6;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_BMW_X6:
+                keyframe = Assets.carBmwX6;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_BULLET:
-                keyframe = Assets.carroBullet;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_BULLET:
+                keyframe = Assets.carBullet;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_CHEVRLOTE_CROSSFIRE:
-                keyframe = Assets.chevroletCrossfire;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_CHEVROLET_CROSSFIRE:
+                keyframe = Assets.carChevroletCrossfire;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_CITROEN_C4:
-                keyframe = Assets.citroenC4;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_CITROEN_C4:
+                keyframe = Assets.carCitroenC4;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_DODGE_CHARGER:
-                keyframe = Assets.dodgeCharger;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_DODGE_CHARGER:
+                keyframe = Assets.carDodgeCharger;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_FIAT_500_LOUNGE:
-                keyframe = Assets.fiat500Lounge;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_FIAT_500_LOUNGE:
+                keyframe = Assets.carFiat500Lounge;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_HONDA_CRV:
-                keyframe = Assets.hondaCRV;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_HONDA_CRV:
+                keyframe = Assets.carHondaCRV;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_MAZDA_6:
-                keyframe = Assets.mazda6;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_MAZDA_6:
+                keyframe = Assets.carMazda6;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_MAZDA_RX8:
-                keyframe = Assets.mazdaRX8;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_MAZDA_RX8:
+                keyframe = Assets.carMazdaRX8;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_SEAT_IBIZA:
-                keyframe = Assets.seatIbiza;
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_SEAT_IBIZA:
+                keyframe = Assets.carSeatIbiza;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
-            case PersonajesSubMenu.SKIN_CARRO_VOLKSWAGEN_SCIROCCO:
+            case com.nopalsoft.dragracer.shop.CharactersSubMenu.SKIN_CAR_VOLKSWAGEN_SCIROCCO:
             default:
-                keyframe = Assets.volkswagenScirocco;
+                keyframe = Assets.carVolkswagenScirocco;
                 width = keyframe.getRegionWidth();
                 height = keyframe.getRegionHeight();
                 break;
         }
 
-        // Le resto menos 5 para que los bounds no esten tan grandes : VEr metodo draw
+        // I subtract less 5 so that the bounds are not so big: See draw method.
         setWidth(width - 20);
         setHeight(height - 20);
         setPosition(x - getWidth() / 2f, y);
@@ -135,10 +134,10 @@ public class EnemyCar extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        // le sumo mas 20 a los bounds actuales para que el draw quede mejor
+        // I add 20 more to the current bounds so that the draw is better.
         float drawWidth = getWidth() + 20;
         float drawHeight = getHeight() + 20;
-        // Le resto 10 porque es la mitad de los +20
+        // I subtract 10 because it is half of the +20
         batch.draw(keyframe, getX() - 10, getY() - 10, drawWidth / 2f,
                 drawHeight / 2f, drawWidth, drawHeight, 1, 1, getRotation());
 
@@ -171,22 +170,22 @@ public class EnemyCar extends Actor {
         addAction(fadeOut(1f));
 
         if (front && above)
-            agregarAccion(-360, 200, 200);
+            addAction(-360, 200, 200);
 
         if (front && !above)
-            agregarAccion(360, 200, -200);
+            addAction(360, 200, -200);
 
         if (!front && above)
-            agregarAccion(360, -200, 200);
+            addAction(360, -200, 200);
 
         if (!front && !above)
-            agregarAccion(-360, -200, -200);
+            addAction(-360, -200, -200);
     }
 
-    private void agregarAccion(float rotacion, float posX, float posY) {
+    private void addAction(float rotation, float positionX, float positionY) {
         addAction(sequence(
-                parallel(Actions.rotateBy(rotacion, 1.5f),
-                        Actions.moveBy(posX, posY, 1.5f)), removeActor()));
+                parallel(Actions.rotateBy(rotation, 1.5f),
+                        Actions.moveBy(positionX, positionY, 1.5f)), removeActor()));
     }
 
     public Rectangle getBounds() {

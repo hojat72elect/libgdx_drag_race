@@ -1,4 +1,4 @@
-package com.nopalsoft.dragracer.objetos;
+package com.nopalsoft.dragracer.game_objects;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -7,11 +7,11 @@ import com.nopalsoft.dragracer.Assets;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
-public class InfiniteScrollBg extends Actor {
+public class InfiniteScrollBackground extends Actor {
 
     MoveToAction moveAction;
 
-    public InfiniteScrollBg(float width, float height) {
+    public InfiniteScrollBackground(float width, float height) {
         setWidth(width);
         setHeight(height);
         setPosition(0, height);
@@ -27,7 +27,7 @@ public class InfiniteScrollBg extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw(Assets.calle, getX(), getY() - getHeight(), getWidth(),
+        batch.draw(Assets.street, getX(), getY() - getHeight(), getWidth(),
                 getHeight() * 2);
     }
 
