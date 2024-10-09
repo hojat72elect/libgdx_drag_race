@@ -1,37 +1,29 @@
-package com.nopalsoft.dragracer;
+package com.nopalsoft.dragracer
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.nopalsoft.dragracer.handlers.GameServicesHandler;
-import com.nopalsoft.dragracer.handlers.RequestHandler;
-import com.nopalsoft.dragracer.screens.MainMenuScreen;
-import com.nopalsoft.dragracer.screens.Screens;
+import com.badlogic.gdx.Game
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.utils.viewport.StretchViewport
+import com.nopalsoft.dragracer.handlers.GameServicesHandler
+import com.nopalsoft.dragracer.handlers.RequestHandler
+import com.nopalsoft.dragracer.screens.MainMenuScreen
+import com.nopalsoft.dragracer.screens.Screens
 
-public class MainStreet extends Game {
+class MainStreet(@JvmField val reqHandler: RequestHandler, @JvmField val gameServiceHandler: GameServicesHandler):Game() {
 
-    public final GameServicesHandler gameServiceHandler;
-    public final RequestHandler reqHandler;
-    public Stage stage;
-    public SpriteBatch batcher;
+    lateinit var stage: Stage
+lateinit var batcher: SpriteBatch
 
-    public MainStreet(RequestHandler reqHandler, GameServicesHandler gameServiceHandler) {
-        this.reqHandler = reqHandler;
-        this.gameServiceHandler = gameServiceHandler;
+
+    override fun create() {
+
+        stage =
+            Stage(StretchViewport(Screens.SCREEN_WIDTH.toFloat(), Screens.SCREEN_HEIGHT.toFloat()))
+        batcher = SpriteBatch()
+
+        Assets.load()
+
+        if (Settings.didBuyNoAds) reqHandler.removeAds()
+        setScreen(MainMenuScreen(this))
     }
-
-    @Override
-    public void create() {
-        stage = new Stage(new StretchViewport(Screens.SCREEN_WIDTH, Screens.SCREEN_HEIGHT));
-
-        batcher = new SpriteBatch();
-        Assets.load();
-
-        if (Settings.didBuyNoAds)
-            reqHandler.removeAds();
-
-        setScreen(new MainMenuScreen(this));
-    }
-
 }
