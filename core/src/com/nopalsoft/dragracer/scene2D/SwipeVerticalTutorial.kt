@@ -1,70 +1,59 @@
-package com.nopalsoft.dragracer.scene2D;
+package com.nopalsoft.dragracer.scene2D
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.nopalsoft.dragracer.Assets;
-import com.nopalsoft.dragracer.screens.Screens;
+import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.nopalsoft.dragracer.Assets
+import com.nopalsoft.dragracer.screens.Screens
 
 /**
  * This is part of the HUD system of the game; which teaches the gamer how to do turbo in mobile phone.
  */
-public class SwipeVerticalTutorial {
+class SwipeVerticalTutorial(stage: Stage) {
 
-    public SwipeVerticalTutorial(final Stage stage) {
+    private val labelSwipeToMove = Label(
+        "Swipe for turbo!",
+        Assets.labelStyleLarge
+    )
+    private val swipeHand = Image(Assets.swipeHand)
 
-        final Label labelSwipeToMove = new Label("Swipe for turbo!",
-                Assets.labelStyleLarge);
-        labelSwipeToMove
-                .setPosition(
-                        Screens.SCREEN_WIDTH / 2f - labelSwipeToMove.getWidth()
-                                / 2f, 600);
-        labelSwipeToMove.getColor().a = 0;
 
-        final Image swipeHand = new Image(Assets.swipeHand);
-        swipeHand.setPosition(Screens.SCREEN_WIDTH / 2f, 400);
-        swipeHand.setOrigin(swipeHand.getWidth() / 2f, swipeHand.getHeight() / 2f);
-        swipeHand.setScale(1.2f);
+    init {
+
+        labelSwipeToMove.setPosition(
+            Screens.SCREEN_WIDTH / 2f - (labelSwipeToMove.width / 2f),
+            600f
+        )
+
+        labelSwipeToMove.color.a = 0f
+        swipeHand.setPosition(Screens.SCREEN_WIDTH / 2f, 400f)
+        swipeHand.setOrigin(swipeHand.width / 2f, swipeHand.height / 2f)
+        swipeHand.setScale(1.2f)
+
         swipeHand.addAction(
-                Actions.sequence(
+            Actions.sequence(
+                Actions.scaleTo(1f, 1f, .25f),
+                Actions.run { swipeHand.drawable = Assets.swipeHandDown },
+                Actions.moveTo(swipeHand.x, 500f, .65f),  //
+                Actions.run { swipeHand.drawable = Assets.swipeHand },
+                Actions.scaleTo(1.1f, 1.1f, .125f),  //
+                Actions.run { swipeHand.remove() }
+            ))
 
-                        Actions.scaleTo(1, 1, .25f),
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                swipeHand.setDrawable(Assets.swipeHandDown);
-                            }
-                        }),
-                        Actions.moveTo(swipeHand.getX(), 500, .65f), //
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                swipeHand.setDrawable(Assets.swipeHand);
+        labelSwipeToMove.addAction(
+            Actions.sequence(
+                Actions.fadeIn(1f),
+                Actions.run {
+                    labelSwipeToMove.remove()
+                    stage.addActor(swipeHand)
+                })
+        )
 
-                            }
-                        }),
-                        Actions.scaleTo(1.1f, 1.1f, .125f),//
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                swipeHand.remove();
 
-                            }
-                        })
-                ));
+        stage.addActor(labelSwipeToMove)
 
-        labelSwipeToMove.addAction(Actions.sequence(Actions.fadeIn(1f),
-                Actions.run(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        labelSwipeToMove.remove();
-                        stage.addActor(swipeHand);
-
-                    }
-                })));
-
-        stage.addActor(labelSwipeToMove);
     }
+
+
 }
