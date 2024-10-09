@@ -28,11 +28,11 @@ fun main(args: Array<String>) {
             // TODO Auto-generated method stub
         }
 
-        override fun shareOnTwitter(message: String) {
+        override fun shareOnTwitter(message: String?) {
             // TODO Auto-generated method stub
         }
 
-        override fun shareOnFacebook(message: String) {
+        override fun shareOnFacebook(message: String?) {
             // TODO Auto-generated method stub
         }
 
