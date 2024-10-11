@@ -28,29 +28,25 @@ import com.nopalsoft.dragracer.shop.ShopScreen
 class GameScreen(game: MainStreet?) : Screens(game) {
 
 
-    private var labelScore: Label? = null
-    private var labelCoin: Label? = null
-    private var tableScores: Table? = null
-
-    private var labelTryAgain: Label? = null
-    private var labelShopScreen: Label? = null
-    private var labelLeaderboard: Label? = null
-
-    private var speedBar: SpeedBar? = null
-    private var score: Int = 0
-    private var coins: Int = 0
-    private var canSuperSpeed: Boolean = false
-    private var groupPaused: Group? = null
-    private var gameOverGroup: GameOverGroup? = null
-    var buttonMusic: Button? = null
+    private lateinit var labelScore: Label
+    private lateinit var labelCoin: Label
+    private lateinit var tableScores: Table
+    private lateinit var labelTryAgain: Label
+    private lateinit var labelShopScreen: Label
+    private lateinit var labelLeaderboard: Label
+    private lateinit var speedBar: SpeedBar
+    private var score = 0
+    private var coins = 0
+    private var canSuperSpeed = false
+    private lateinit var groupPaused: Group
+    private lateinit var gameOverGroup: GameOverGroup
+    lateinit var buttonMusic: Button
     private val stageGame = Stage(StretchViewport(SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat()))
     private val trafficGame = TrafficGame()
 
     init {
         stageGame.addActor(trafficGame)
-
         initUI()
-
         setReady()
         Settings.numberOfTimesPlayed++
     }
@@ -59,42 +55,41 @@ class GameScreen(game: MainStreet?) : Screens(game) {
         speedBar = SpeedBar(TrafficGame.NUM_COINS_FOR_SUPER_SPEED.toFloat(), 5f, 720f, 160f, 20f)
 
         labelScore = Label("Distance 0m", Assets.labelStyleLarge)
-        labelScore!!.setFontScale(.8f)
+        labelScore.setFontScale(.8f)
 
         labelCoin = Label("0", Assets.labelStyleLarge)
-        labelCoin!!.setFontScale(.8f)
+        labelCoin.setFontScale(.8f)
 
         val imageCoinFront = Image(Assets.coinFront)
 
         tableScores = Table()
-        tableScores!!.width = SCREEN_WIDTH.toFloat()
-        tableScores!!.setPosition(0f, SCREEN_HEIGHT - labelScore!!.height / 2)
-        tableScores!!.padLeft(5f).padRight(5f)
-
-        tableScores!!.add(labelScore).left()
-        tableScores!!.add(labelCoin).right().expand().padRight(5f)
-        tableScores!!.add(imageCoinFront).right()
+        tableScores.width = SCREEN_WIDTH.toFloat()
+        tableScores.setPosition(0f, SCREEN_HEIGHT - labelScore.height / 2)
+        tableScores.padLeft(5f).padRight(5f)
+        tableScores.add(labelScore).left()
+        tableScores.add(labelCoin).right().expand().padRight(5f)
+        tableScores.add(imageCoinFront).right()
 
         // Gameover
         labelTryAgain = Label("Try again", Assets.labelStyleLarge)
-        labelTryAgain!!.setPosition(500f, 310f)
-        labelTryAgain!!.addListener(object : ClickListener() {
+        labelTryAgain.setPosition(500f, 310f)
+        labelTryAgain.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 changeScreenWithFadeOut(GameScreen::class.java, game)
             }
         })
 
         labelShopScreen = Label("Shop screen", Assets.labelStyleLarge)
-        labelShopScreen!!.setPosition(500f, 210f)
-        labelShopScreen!!.addListener(object : ClickListener() {
+        labelShopScreen.setPosition(500f, 210f)
+        labelShopScreen.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 changeScreenWithFadeOut(ShopScreen::class.java, game)
             }
         })
 
         labelLeaderboard = Label("Leaderboard", Assets.labelStyleLarge)
-        labelLeaderboard!!.setPosition(500f, 110f)
-        labelLeaderboard!!.addListener(object : ClickListener() {
+        labelLeaderboard.setPosition(500f, 110f)
+        labelLeaderboard.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 if (game.gameServiceHandler.isSignedIn()) game.gameServiceHandler.getLeaderboard()
                 else game.gameServiceHandler.signIn()
@@ -102,13 +97,13 @@ class GameScreen(game: MainStreet?) : Screens(game) {
         })
 
         buttonMusic = Button(Assets.styleButtonMusic)
-        buttonMusic!!.setPosition(5f, 5f)
-        buttonMusic!!.isChecked = !Settings.isMusicOn
+        buttonMusic.setPosition(5f, 5f)
+        buttonMusic.isChecked = !Settings.isMusicOn
         Gdx.app.log("Musica", Settings.isMusicOn.toString() + "")
-        buttonMusic!!.addListener(object : ClickListener() {
+        buttonMusic.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 Settings.isMusicOn = !Settings.isMusicOn
-                buttonMusic!!.isChecked = !Settings.isMusicOn
+                buttonMusic.isChecked = !Settings.isMusicOn
                 if (Settings.isMusicOn) Assets.music.play()
                 else Assets.music.stop()
                 super.clicked(event, x, y)
@@ -125,15 +120,15 @@ class GameScreen(game: MainStreet?) : Screens(game) {
 
         // Paused
         groupPaused = Group()
-        groupPaused!!.setSize(SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat())
+        groupPaused.setSize(SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat())
 
         val background = Image(Assets.pixelBlack)
-        background.setSize(groupPaused!!.width, groupPaused!!.height)
+        background.setSize(groupPaused.width, groupPaused.height)
 
         val labelPaused = Label("Game Paused\nTouch to resume", Assets.labelStyleLarge)
         labelPaused.setPosition(
-            groupPaused!!.width / 2f - labelPaused.width / 2f,
-            groupPaused!!.height / 2f - labelPaused.height / 2f
+            groupPaused.width / 2f - labelPaused.width / 2f,
+            groupPaused.height / 2f - labelPaused.height / 2f
         )
         labelPaused.setAlignment(Align.center)
         labelPaused.addAction(
@@ -144,8 +139,8 @@ class GameScreen(game: MainStreet?) : Screens(game) {
                 )
             )
         )
-        groupPaused!!.addActor(labelPaused)
-        groupPaused!!.addListener(object : ClickListener() {
+        groupPaused.addActor(labelPaused)
+        groupPaused.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 setRunning()
             }
@@ -177,10 +172,10 @@ class GameScreen(game: MainStreet?) : Screens(game) {
             SwipeVerticalTutorial(stage)
         }
 
-        speedBar!!.updateActualLife(trafficGame.numberOfCoinsForSuperSpeed.toFloat())
+        speedBar.updateActualLife(trafficGame.numberOfCoinsForSuperSpeed.toFloat())
 
-        labelScore!!.setText("Distance " + score + "m")
-        labelCoin!!.setText(coins.toString() + "")
+        labelScore.setText("Distance " + score + "m")
+        labelCoin.setText(coins.toString() + "")
     }
 
     private fun setRunning() {
