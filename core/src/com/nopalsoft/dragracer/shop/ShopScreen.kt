@@ -1,153 +1,151 @@
-package com.nopalsoft.dragracer.shop;
+package com.nopalsoft.dragracer.shop
 
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.nopalsoft.dragracer.Assets;
-import com.nopalsoft.dragracer.MainStreet;
-import com.nopalsoft.dragracer.Settings;
-import com.nopalsoft.dragracer.screens.MainMenuScreen;
-import com.nopalsoft.dragracer.screens.Screens;
+import com.badlogic.gdx.Input
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.ui.Button
+import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import com.nopalsoft.dragracer.Assets
+import com.nopalsoft.dragracer.MainStreet
+import com.nopalsoft.dragracer.Settings
+import com.nopalsoft.dragracer.screens.MainMenuScreen
+import com.nopalsoft.dragracer.screens.Screens
 
-public class ShopScreen extends Screens {
+class ShopScreen(game: MainStreet) : Screens(game) {
+    var buttonCharacters: Button? = null
+    var buttonPowerUps: Button? = null
+    var buttonCoins: Button? = null
+    var buttonNoAds: Button? = null
+    var buttonBack: Button? = null
 
-    Button buttonCharacters, buttonPowerUps, buttonCoins, buttonNoAds, buttonBack;
+    var labelCoin: Label
 
-    Label labelCoin;
+    var scrollPane: ScrollPane
+    var container: Table
 
-    ScrollPane scrollPane;
-    Table container;
+    init {
+        val labelShop = Label("Shop", Assets.labelStyleLarge)
+        labelShop.setSize(135f, 50f)
+        labelShop.setPosition(3f, 747f)
 
-    public ShopScreen(final MainStreet game) {
-        super(game);
+        val imageCoin = Image(Assets.coinFront)
 
-        Label labelShop = new Label("Shop", Assets.labelStyleLarge);
-        labelShop.setSize(135, 50);
-        labelShop.setPosition(3, 747);
+        labelCoin = Label("0", Assets.labelStyleLarge)
+        labelCoin.setFontScale(.8f)
 
-        Image imageCoin = new Image(Assets.coinFront);
+        val tableScores = Table()
+        tableScores.width = SCREEN_WIDTH.toFloat()
+        tableScores.setPosition(0f, SCREEN_HEIGHT - labelCoin.height / 2)
+        tableScores.padLeft(5f).padRight(5f)
 
-        labelCoin = new Label("0", Assets.labelStyleLarge);
-        labelCoin.setFontScale(.8f);
+        tableScores.add(labelCoin).right().expand().padRight(5f)
+        tableScores.add(imageCoin).right()
 
-        Table tableScores = new Table();
-        tableScores.setWidth(SCREEN_WIDTH);
-        tableScores.setPosition(0, SCREEN_HEIGHT - labelCoin.getHeight() / 2);
-        tableScores.padLeft(5).padRight(5);
+        val imageHorizontalSeparator = Image(Assets.horizontalSeparator)
+        imageHorizontalSeparator.setSize(SCREEN_WIDTH.toFloat(), 5f)
+        imageHorizontalSeparator.color = Color.LIGHT_GRAY
+        imageHorizontalSeparator.setPosition(0f, 740f)
 
-        tableScores.add(labelCoin).right().expand().padRight(5);
-        tableScores.add(imageCoin).right();
+        val imageVerticalSeparator = Image(Assets.verticalSeparator)
+        imageVerticalSeparator.setSize(5f, 745f)
+        imageVerticalSeparator.color = Color.LIGHT_GRAY
+        imageVerticalSeparator.setPosition(90f, 0f)
 
-        Image imageHorizontalSeparator = new Image(Assets.horizontalSeparator);
-        imageHorizontalSeparator.setSize(SCREEN_WIDTH, 5);
-        imageHorizontalSeparator.setColor(Color.LIGHT_GRAY);
-        imageHorizontalSeparator.setPosition(0, 740);
+        initializeButtons()
 
-        Image imageVerticalSeparator = new Image(Assets.verticalSeparator);
-        imageVerticalSeparator.setSize(5, 745);
-        imageVerticalSeparator.setColor(Color.LIGHT_GRAY);
-        imageVerticalSeparator.setPosition(90, 0);
+        container = Table()
 
-        initializeButtons();
+        scrollPane = ScrollPane(container, Assets.styleScrollPane)
+        scrollPane.setSize((SCREEN_WIDTH - 95).toFloat(), (SCREEN_HEIGHT - 62).toFloat())
+        scrollPane.setPosition(95f, 0f)
 
-        container = new Table();
+        stage.addActor(tableScores)
+        stage.addActor(labelShop)
+        stage.addActor(imageVerticalSeparator)
+        stage.addActor(imageHorizontalSeparator)
+        stage.addActor(buttonCharacters)
 
-        scrollPane = new ScrollPane(container, Assets.styleScrollPane);
-        scrollPane.setSize(SCREEN_WIDTH - 95, (SCREEN_HEIGHT - 62));
-        scrollPane.setPosition(95, 0);
+        stage.addActor(buttonCoins)
+        stage.addActor(buttonNoAds)
+        stage.addActor(buttonBack)
+        stage.addActor(scrollPane)
 
-        stage.addActor(tableScores);
-        stage.addActor(labelShop);
-        stage.addActor(imageVerticalSeparator);
-        stage.addActor(imageHorizontalSeparator);
-        stage.addActor(buttonCharacters);
-
-        stage.addActor(buttonCoins);
-        stage.addActor(buttonNoAds);
-        stage.addActor(buttonBack);
-        stage.addActor(scrollPane);
-
-        new CharactersSubMenu(game, container);
-
+        CharactersSubMenu(game, container)
     }
 
-    private void initializeButtons() {
-        buttonCharacters = new Button(new TextureRegionDrawable(Assets.carTornado));
-        buttonCharacters.setSize(45, 65);
-        buttonCharacters.setPosition(23, 660);
-        addPressEffect(buttonCharacters);
-        buttonCharacters.addListener(new ClickListener() {
-            public void clicked(
-                    InputEvent event, float x,
-                    float y) {
-                new CharactersSubMenu(game, container);
+    private fun initializeButtons() {
+        buttonCharacters = Button(TextureRegionDrawable(Assets.carTornado))
+        buttonCharacters!!.setSize(45f, 65f)
+        buttonCharacters!!.setPosition(23f, 660f)
+        addPressEffect(buttonCharacters)
+        buttonCharacters!!.addListener(object : ClickListener() {
+            override fun clicked(
+                event: InputEvent, x: Float,
+                y: Float
+            ) {
+                CharactersSubMenu(game, container)
             }
+        })
 
-        });
+        buttonPowerUps = Button(TextureRegionDrawable(Assets.carTornado))
+        buttonPowerUps!!.setSize(55f, 55f)
+        buttonPowerUps!!.setPosition(17f, 570f)
+        addPressEffect(buttonPowerUps)
 
-        buttonPowerUps = new Button(new TextureRegionDrawable(Assets.carTornado));
-        buttonPowerUps.setSize(55, 55);
-        buttonPowerUps.setPosition(17, 570);
-        addPressEffect(buttonPowerUps);
-
-        buttonCoins = new Button(new TextureRegionDrawable(Assets.coinFront));
-        buttonCoins.setSize(55, 55);
-        buttonCoins.setPosition(17, 480);
-        addPressEffect(buttonCoins);
-        buttonCoins.addListener(new ClickListener() {
-            public void clicked(
-                    InputEvent event, float x,
-                    float y) {
-                new GetCoinsSubMenu(game, container);
+        buttonCoins = Button(TextureRegionDrawable(Assets.coinFront))
+        buttonCoins!!.setSize(55f, 55f)
+        buttonCoins!!.setPosition(17f, 480f)
+        addPressEffect(buttonCoins)
+        buttonCoins!!.addListener(object : ClickListener() {
+            override fun clicked(
+                event: InputEvent, x: Float,
+                y: Float
+            ) {
+                GetCoinsSubMenu(game, container)
             }
+        })
 
-        });
-
-        buttonNoAds = new Button(new TextureRegionDrawable(Assets.buttonNoAds));
-        buttonNoAds.setSize(55, 55);
-        buttonNoAds.setPosition(17, 390);
-        addPressEffect(buttonNoAds);
-        buttonNoAds.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                new NoAdsSubMenu(game, container);
+        buttonNoAds = Button(TextureRegionDrawable(Assets.buttonNoAds))
+        buttonNoAds!!.setSize(55f, 55f)
+        buttonNoAds!!.setPosition(17f, 390f)
+        addPressEffect(buttonNoAds)
+        buttonNoAds!!.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                NoAdsSubMenu(game, container)
             }
-        });
+        })
 
-        buttonBack = new Button(new TextureRegionDrawable(Assets.buttonBack));
-        buttonBack.setSize(55, 55);
-        buttonBack.setPosition(17, 10);
-        addPressEffect(buttonBack);
-        buttonBack.addListener(new ClickListener() {
-            public void clicked(
-                    InputEvent event, float x,
-                    float y) {
-                changeScreenWithFadeOut(MainMenuScreen.class, game);
+        buttonBack = Button(TextureRegionDrawable(Assets.buttonBack))
+        buttonBack!!.setSize(55f, 55f)
+        buttonBack!!.setPosition(17f, 10f)
+        addPressEffect(buttonBack)
+        buttonBack!!.addListener(object : ClickListener() {
+            override fun clicked(
+                event: InputEvent, x: Float,
+                y: Float
+            ) {
+                changeScreenWithFadeOut(MainMenuScreen::class.java, game)
             }
-
-        });
-
+        })
     }
 
-    @Override
-    public void draw(float delta) {
-
+    override fun draw(delta: Float) {
     }
 
-    @Override
-    public void update(float delta) {
-        labelCoin.setText(Settings.coinsTotal + "");
+    override fun update(delta: Float) {
+        labelCoin.setText(Settings.coinsTotal.toString() + "")
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
-            changeScreenWithFadeOut(MainMenuScreen.class, game);
-            return true;
+    override fun keyDown(keycode: Int): Boolean {
+        if (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) {
+            changeScreenWithFadeOut(MainMenuScreen::class.java, game)
+            return true
         }
-        return false;
+        return false
     }
-
 }
