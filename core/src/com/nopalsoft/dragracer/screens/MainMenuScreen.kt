@@ -1,137 +1,123 @@
-package com.nopalsoft.dragracer.screens;
+package com.nopalsoft.dragracer.screens
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.nopalsoft.dragracer.Assets;
-import com.nopalsoft.dragracer.MainStreet;
-import com.nopalsoft.dragracer.Settings;
-import com.nopalsoft.dragracer.game.GameScreen;
-import com.nopalsoft.dragracer.shop.ShopScreen;
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.ui.Button
+import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.nopalsoft.dragracer.Assets
+import com.nopalsoft.dragracer.MainStreet
+import com.nopalsoft.dragracer.Settings
+import com.nopalsoft.dragracer.game.GameScreen
+import com.nopalsoft.dragracer.shop.ShopScreen
 
-public class MainMenuScreen extends Screens {
+class MainMenuScreen(game: MainStreet) : Screens(game) {
+    var imageTitle: Image = Image(Assets.title)
 
-    Image imageTitle;
+    var labelShopScreen: Label
+    var labelPlay: Label
+    var labelLeaderboard: Label
+    var labelRate: Label
 
-    Label labelShopScreen;
-    Label labelPlay;
-    Label labelLeaderboard;
-    Label labelRate;
+    var buttonMusic: Button
 
-    Button buttonMusic;
+    init {
 
-    public MainMenuScreen(final MainStreet game) {
-        super(game);
+        labelPlay = Label("Play", Assets.labelStyleLarge)
+        labelRate = Label("Rate", Assets.labelStyleLarge)
+        labelLeaderboard = Label("Leaderboard", Assets.labelStyleLarge)
+        labelShopScreen = Label("Shop screen", Assets.labelStyleLarge)
+        buttonMusic = Button(Assets.styleButtonMusic)
 
-        imageTitle = new Image(Assets.title);
-        imageTitle.setPosition(SCREEN_WIDTH / 2f - imageTitle.getWidth() / 2f, 520);
-        imageTitle.getColor().a = 0;
-        imageTitle.addAction(Actions.sequence(Actions.fadeIn(.5f),
-                Actions.run(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        stage.addActor(labelPlay);
-                        stage.addActor(labelRate);
-                        stage.addActor(labelLeaderboard);
-                        stage.addActor(labelShopScreen);
-                        stage.addActor(buttonMusic);
-                    }
-                })));
+        imageTitle.setPosition(SCREEN_WIDTH / 2f - imageTitle.width / 2f, 520f)
+        imageTitle.color.a = 0f
+        imageTitle.addAction(
+            Actions.sequence(
+                Actions.fadeIn(.5f),
+                Actions.run {
+                    stage.addActor(labelPlay)
+                    stage.addActor(labelRate)
+                    stage.addActor(labelLeaderboard)
+                    stage.addActor(labelShopScreen)
+                    stage.addActor(buttonMusic)
+                })
+        )
 
-        labelPlay = new Label("Play", Assets.labelStyleLarge);
-        labelPlay.setPosition(500, 440);
-        labelPlay.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                changeScreenWithFadeOut(GameScreen.class, game);
+
+        labelPlay.setPosition(500f, 440f)
+        labelPlay.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                changeScreenWithFadeOut(GameScreen::class.java, game)
             }
-        });
+        })
 
-        labelRate = new Label("Rate", Assets.labelStyleLarge);
-        labelRate.setPosition(500, 340);
-        labelRate.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.reqHandler.showRater();
+
+        labelRate.setPosition(500f, 340f)
+        labelRate.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                game.reqHandler.showRater()
             }
-        });
+        })
 
-        labelShopScreen = new Label("Shop screen", Assets.labelStyleLarge);
-        labelShopScreen.setPosition(500, 240);
-        labelShopScreen.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                changeScreenWithFadeOut(ShopScreen.class, game);
+
+        labelShopScreen.setPosition(500f, 240f)
+        labelShopScreen.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                changeScreenWithFadeOut(ShopScreen::class.java, game)
             }
-        });
+        })
 
-        labelLeaderboard = new Label("Leaderboard", Assets.labelStyleLarge);
-        labelLeaderboard.setPosition(500, 140);
-        labelLeaderboard.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (game.gameServiceHandler.isSignedIn())
-                    game.gameServiceHandler.getLeaderboard();
-                else
-                    game.gameServiceHandler.signIn();
+
+        labelLeaderboard.setPosition(500f, 140f)
+        labelLeaderboard.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                if (game.gameServiceHandler.isSignedIn()) game.gameServiceHandler.getLeaderboard()
+                else game.gameServiceHandler.signIn()
             }
-        });
+        })
 
-        buttonMusic = new Button(Assets.styleButtonMusic);
-        buttonMusic.setPosition(5, 5);
-        buttonMusic.setChecked(!Settings.isMusicOn);
-        Gdx.app.log("Musica", Settings.isMusicOn + "");
-        buttonMusic.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Settings.isMusicOn = !Settings.isMusicOn;
-                buttonMusic.setChecked(!Settings.isMusicOn);
-                if (Settings.isMusicOn)
-                    Assets.music.play();
-                else
-                    Assets.music.stop();
-                super.clicked(event, x, y);
+
+        buttonMusic.setPosition(5f, 5f)
+        buttonMusic.isChecked = !Settings.isMusicOn
+        Gdx.app.log("Musica", Settings.isMusicOn.toString() + "")
+        buttonMusic.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                Settings.isMusicOn = !Settings.isMusicOn
+                buttonMusic.isChecked = !Settings.isMusicOn
+                if (Settings.isMusicOn) Assets.music.play()
+                else Assets.music.stop()
+                super.clicked(event, x, y)
             }
-        });
+        })
 
-        entranceAction(labelPlay, labelPlay.getY(), .25f);
-        entranceAction(labelRate, labelRate.getY(), .5f);
-        entranceAction(labelShopScreen, labelShopScreen.getY(), .75f);
-        entranceAction(labelLeaderboard, labelLeaderboard.getY(), 1f);
+        entranceAction(labelPlay, labelPlay.y, .25f)
+        entranceAction(labelRate, labelRate.y, .5f)
+        entranceAction(labelShopScreen, labelShopScreen.y, .75f)
+        entranceAction(labelLeaderboard, labelLeaderboard.y, 1f)
 
-        setAnimationChangeColor(labelShopScreen);
-        setAnimationChangeColor(labelRate);
-        setAnimationChangeColor(labelLeaderboard);
-        setAnimationChangeColor(labelPlay);
+        setAnimationChangeColor(labelShopScreen)
+        setAnimationChangeColor(labelRate)
+        setAnimationChangeColor(labelLeaderboard)
+        setAnimationChangeColor(labelPlay)
 
-        stage.addActor(imageTitle);
-
+        stage.addActor(imageTitle)
     }
 
-    @Override
-    public void update(float delta) {
-
+    override fun update(delta: Float) {
     }
 
-    @Override
-    public void draw(float delta) {
-        batcher.begin();
-        batcher.draw(Assets.street, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT * 2);
-        batcher.end();
+    override fun draw(delta: Float) {
+        batcher.begin()
+        batcher.draw(Assets.street, 0f, 0f, SCREEN_WIDTH.toFloat(), (SCREEN_HEIGHT * 2).toFloat())
+        batcher.end()
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        if (keycode == Keys.ESCAPE || keycode == Keys.BACK)
-            Gdx.app.exit();
-        return true;
-
+    override fun keyDown(keycode: Int): Boolean {
+        if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) Gdx.app.exit()
+        return true
     }
-
 }
