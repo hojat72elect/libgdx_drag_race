@@ -1,42 +1,39 @@
-package com.nopalsoft.dragracer.game_objects;
+package com.nopalsoft.dragracer.game_objects
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.nopalsoft.dragracer.Assets;
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
+import com.nopalsoft.dragracer.Assets
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+class InfiniteScrollBackground(width: Float, height: Float) : Actor() {
 
-public class InfiniteScrollBackground extends Actor {
+    private val moveAction = MoveToAction()
 
-    MoveToAction moveAction;
+    init {
+        setWidth(width)
+        setHeight(height)
+        setPosition(0f, height)
 
-    public InfiniteScrollBackground(float width, float height) {
-        setWidth(width);
-        setHeight(height);
-        setPosition(0, height);
+        moveAction.setPosition(0f, 0f)
+        moveAction.duration = 1.75f
 
-        moveAction = new MoveToAction();
-        moveAction.setPosition(0, 0);
-        moveAction.setDuration(1.75f);
-
-        addAction(forever(sequence(moveAction, moveTo(0, height))));
-
+        addAction(Actions.forever(Actions.sequence(moveAction, Actions.moveTo(0f, height))))
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-        batch.draw(Assets.street, getX(), getY() - getHeight(), getWidth(),
-                getHeight() * 2);
+    override fun draw(batch: Batch, parentAlpha: Float) {
+        super.draw(batch, parentAlpha)
+        batch.draw(
+            Assets.street, x, y - height, width,
+            height * 2
+        )
     }
 
-    public void setSpeed() {
-        moveAction.setDuration(.3f);
+    fun setSpeed() {
+        moveAction.duration = .3f
     }
 
-    public void stopSpeed() {
-        moveAction.setDuration(1.75f);
+    fun stopSpeed() {
+        moveAction.duration = 1.75f
     }
-
 }

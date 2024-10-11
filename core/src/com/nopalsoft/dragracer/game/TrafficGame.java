@@ -7,6 +7,7 @@ import com.nopalsoft.dragracer.Assets;
 import com.nopalsoft.dragracer.game_objects.EnemyCar;
 import com.nopalsoft.dragracer.game_objects.PlayerCar;
 import com.nopalsoft.dragracer.screens.Screens;
+import com.nopalsoft.dragracer.game_objects.InfiniteScrollBackground;
 
 import java.util.Iterator;
 
@@ -28,7 +29,7 @@ public class TrafficGame extends Table {
     final float TIME_TO_SPAWN_COIN = 1f;
     final float DURATION_SUPER_SPEED = 5;
 
-    private final com.nopalsoft.dragracer.game_objects.InfiniteScrollBackground backgroundRoad;
+    private final InfiniteScrollBackground backgroundRoad;
     private final Array<EnemyCar> arrayEnemyCars;
     private final Array<com.nopalsoft.dragracer.game_objects.Coin> arrCoins;
     public int state;
@@ -46,7 +47,7 @@ public class TrafficGame extends Table {
     public TrafficGame() {
         setBounds(0, 0, width, height);
         setClip(true);
-        backgroundRoad = new com.nopalsoft.dragracer.game_objects.InfiniteScrollBackground(getWidth(), getHeight());
+        backgroundRoad = new InfiniteScrollBackground(getWidth(), getHeight());
         addActor(backgroundRoad);
 
         playerCar = new PlayerCar(this);
