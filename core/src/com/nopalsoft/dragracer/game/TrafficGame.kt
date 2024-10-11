@@ -1,218 +1,199 @@
-package com.nopalsoft.dragracer.game;
+package com.nopalsoft.dragracer.game
 
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Array;
-import com.nopalsoft.dragracer.Assets;
-import com.nopalsoft.dragracer.game_objects.EnemyCar;
-import com.nopalsoft.dragracer.game_objects.PlayerCar;
-import com.nopalsoft.dragracer.screens.Screens;
-import com.nopalsoft.dragracer.game_objects.InfiniteScrollBackground;
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.utils.Array
+import com.nopalsoft.dragracer.Assets
+import com.nopalsoft.dragracer.Assets.playSound
+import com.nopalsoft.dragracer.game_objects.Coin
+import com.nopalsoft.dragracer.game_objects.EnemyCar
+import com.nopalsoft.dragracer.game_objects.InfiniteScrollBackground
+import com.nopalsoft.dragracer.game_objects.PlayerCar
+import com.nopalsoft.dragracer.screens.Screens
 
-import java.util.Iterator;
+class TrafficGame : Table() {
+    val lane2: Float = 390f
+    val lane1: Float = 240f
+    val lane0: Float = 90f
 
-public class TrafficGame extends Table {
+    val _width: Float = Screens.WORLD_WIDTH
+    val _height: Float = Screens.WORLD_HEIGHT
 
-    public static final int STATE_RUNNING = 0;
-    public static final int STATE_GAMEOVER = 1;
+    val TIME_TO_SPAWN_CAR: Float = 2f
+    val TIME_TO_SPAWN_COIN: Float = 1f
+    val DURATION_SUPER_SPEED: Float = 5f
 
-    public final static int NUM_COINS_FOR_SUPER_SPEED = 10;
+    private val backgroundRoad: InfiniteScrollBackground
+    private val arrayEnemyCars: Array<EnemyCar>
+    private val arrCoins: Array<Coin>
+    var state: Int
+    var numberOfCoinsForSuperSpeed: Int = 0
+    var playerCar: PlayerCar
+    var canSuperSpeed: Boolean = false
+    var timeToSpawnCar: Float = 0f
+    var timeToSpawnCoin: Float = 0f
+    var durationSuperSpeed: Float = 0f
+    var isSuperSpeed: Boolean = false
+    var currentSpeed: Float = 5f
+    var score: Float = 0f
+    var coins: Int = 0
 
-    public final float lane2 = 390;
-    public final float lane1 = 240;
-    public final float lane0 = 90;
+    init {
+        setBounds(0f, 0f, _width, _height)
+        clip = true
+        backgroundRoad = InfiniteScrollBackground(getWidth(), getHeight())
+        addActor(backgroundRoad)
 
-    final float width = Screens.WORLD_WIDTH;
-    final float height = Screens.WORLD_HEIGHT;
+        playerCar = PlayerCar(this)
+        addActor(playerCar)
+        arrayEnemyCars = Array()
+        arrCoins = Array()
 
-    final float TIME_TO_SPAWN_CAR = 2;
-    final float TIME_TO_SPAWN_COIN = 1f;
-    final float DURATION_SUPER_SPEED = 5;
-
-    private final InfiniteScrollBackground backgroundRoad;
-    private final Array<EnemyCar> arrayEnemyCars;
-    private final Array<com.nopalsoft.dragracer.game_objects.Coin> arrCoins;
-    public int state;
-    public int numberOfCoinsForSuperSpeed;
-    public PlayerCar playerCar;
-    boolean canSuperSpeed;
-    float timeToSpawnCar;
-    float timeToSpawnCoin;
-    float durationSuperSpeed = 0;
-    boolean isSuperSpeed;
-    float currentSpeed = 5;
-    float score;
-    int coins;
-
-    public TrafficGame() {
-        setBounds(0, 0, width, height);
-        setClip(true);
-        backgroundRoad = new InfiniteScrollBackground(getWidth(), getHeight());
-        addActor(backgroundRoad);
-
-        playerCar = new PlayerCar(this);
-        addActor(playerCar);
-        arrayEnemyCars = new Array<>();
-        arrCoins = new Array<>();
-
-        state = STATE_RUNNING;
+        state = STATE_RUNNING
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
+    override fun act(delta: Float) {
+        super.act(delta)
 
-        durationSuperSpeed += delta;
+        durationSuperSpeed += delta
         if (durationSuperSpeed >= DURATION_SUPER_SPEED) {
-            stopSuperSpeed();
+            stopSuperSpeed()
         }
 
         if (numberOfCoinsForSuperSpeed >= NUM_COINS_FOR_SUPER_SPEED) {
-            canSuperSpeed = true;
+            canSuperSpeed = true
         }
 
 
-        updateEnemyCar(delta);
-        updateMonedas(delta);
-        score += delta * currentSpeed;
+        updateEnemyCar(delta)
+        updateMonedas(delta)
+        score += delta * currentSpeed
 
         if (playerCar.state == PlayerCar.STATE_DEAD) {
-            state = STATE_GAMEOVER;
+            state = STATE_GAMEOVER
         }
-
     }
 
-    private void updateEnemyCar(float delta) {
+    private fun updateEnemyCar(delta: Float) {
         // I first create a car if necessary.
 
-        timeToSpawnCar += delta;
+        timeToSpawnCar += delta
         if (timeToSpawnCar >= TIME_TO_SPAWN_CAR) {
-            timeToSpawnCar -= TIME_TO_SPAWN_CAR;
-            spawnCar();
-
+            timeToSpawnCar -= TIME_TO_SPAWN_CAR
+            spawnCar()
         }
 
-        Iterator<EnemyCar> iteratorEnemyCar = arrayEnemyCars.iterator();
+        var iteratorEnemyCar: MutableIterator<EnemyCar> = arrayEnemyCars.iterator()
         while (iteratorEnemyCar.hasNext()) {
-            EnemyCar enemyCar = iteratorEnemyCar.next();
-            if (enemyCar.bounds.y + enemyCar.getHeight() <= 0) {
-                iteratorEnemyCar.remove();
-                removeActor(enemyCar);
-                continue;
+            val enemyCar = iteratorEnemyCar.next()
+            if (enemyCar.bounds.y + enemyCar.height <= 0) {
+                iteratorEnemyCar.remove()
+                removeActor(enemyCar)
+                continue
             }
 
-            if (isSuperSpeed)
-                enemyCar.setSpeed();
+            if (isSuperSpeed) enemyCar.setSpeed()
         }
 
         // Then I check the collisions with the player
-        iteratorEnemyCar = arrayEnemyCars.iterator();
+        iteratorEnemyCar = arrayEnemyCars.iterator()
         while (iteratorEnemyCar.hasNext()) {
-            EnemyCar enemyCar = iteratorEnemyCar.next();
-            if (enemyCar.bounds.overlaps(playerCar.getBounds())) {
-                iteratorEnemyCar.remove();
+            val enemyCar = iteratorEnemyCar.next()
+            if (enemyCar.bounds.overlaps(playerCar.bounds)) {
+                iteratorEnemyCar.remove()
 
-                if (enemyCar.getX() > playerCar.getX()) {
-                    enemyCar.crash(true, enemyCar.getY() > playerCar.getY());
-                    if (!isSuperSpeed)
-                        playerCar.crash(false, true);
+                if (enemyCar.x > playerCar.x) {
+                    enemyCar.crash(true, enemyCar.y > playerCar.y)
+                    if (!isSuperSpeed) playerCar.crash(false, true)
                 } else {
-                    enemyCar.crash(false, enemyCar.getY() > playerCar.getY());
-                    if (!isSuperSpeed)
-                        playerCar.crash(true, true);
+                    enemyCar.crash(false, enemyCar.y > playerCar.y)
+                    if (!isSuperSpeed) playerCar.crash(true, true)
                 }
-                Assets.soundCrash.stop();
-                Assets.playSound(Assets.soundCrash);
-
+                Assets.soundCrash.stop()
+                playSound(Assets.soundCrash)
             }
         }
-
     }
 
-    private void updateMonedas(float delta) {
-
-        timeToSpawnCoin += delta;
+    private fun updateMonedas(delta: Float) {
+        timeToSpawnCoin += delta
 
         if (timeToSpawnCoin >= TIME_TO_SPAWN_COIN) {
-            timeToSpawnCoin -= TIME_TO_SPAWN_COIN;
-            spawnCoin();
+            timeToSpawnCoin -= TIME_TO_SPAWN_COIN
+            spawnCoin()
         }
 
-        Iterator<com.nopalsoft.dragracer.game_objects.Coin> iterator = arrCoins.iterator();
+        val iterator: MutableIterator<Coin> = arrCoins.iterator()
         while (iterator.hasNext()) {
-            com.nopalsoft.dragracer.game_objects.Coin obj = iterator.next();
-            if (obj.getBounds().y + obj.getHeight() <= 0) {
-                iterator.remove();
-                removeActor(obj);
-                continue;
+            val obj = iterator.next()
+            if (obj.bounds.y + obj.height <= 0) {
+                iterator.remove()
+                removeActor(obj)
+                continue
             }
             // I see if they are touching my car
-            if (playerCar.getBounds().overlaps(obj.getBounds())) {
-                iterator.remove();
-                removeActor(obj);
-                coins++;
-                numberOfCoinsForSuperSpeed++;
-                continue;
+            if (playerCar.bounds.overlaps(obj.bounds)) {
+                iterator.remove()
+                removeActor(obj)
+                coins++
+                numberOfCoinsForSuperSpeed++
+                continue
             }
 
             // I see if it's touching an enemy
-            for (EnemyCar objEnemy : arrayEnemyCars) {
-                if (obj.getBounds().overlaps(objEnemy.bounds)) {
-                    iterator.remove();
-                    removeActor(obj);
-                    break;
+            for (objEnemy in arrayEnemyCars) {
+                if (obj.bounds.overlaps(objEnemy.bounds)) {
+                    iterator.remove()
+                    removeActor(obj)
+                    break
                 }
             }
 
-            if (isSuperSpeed)
-                obj.setSpeed();
-
+            if (isSuperSpeed) obj.setSpeed()
         }
-
     }
 
-    public void setSuperSpeed() {
-        canSuperSpeed = false;
-        durationSuperSpeed = 0;
-        isSuperSpeed = true;
-        currentSpeed = 30;
-        numberOfCoinsForSuperSpeed = 0;
-        backgroundRoad.setSpeed();
-
+    fun setSuperSpeed() {
+        canSuperSpeed = false
+        durationSuperSpeed = 0f
+        isSuperSpeed = true
+        currentSpeed = 30f
+        numberOfCoinsForSuperSpeed = 0
+        backgroundRoad.setSpeed()
     }
 
-    public void stopSuperSpeed() {
-        isSuperSpeed = false;
-        currentSpeed = 5;
-        backgroundRoad.stopSpeed();
+    fun stopSuperSpeed() {
+        isSuperSpeed = false
+        currentSpeed = 5f
+        backgroundRoad.stopSpeed()
     }
 
-    private void spawnCar() {
-        int lane = MathUtils.random(0, 2);
-        float x = 0;
-        if (lane == 0)
-            x = lane0;
-        if (lane == 1)
-            x = lane1;
-        if (lane == 2)
-            x = lane2;
-        EnemyCar enemyCar = new EnemyCar(x, getHeight());
-        arrayEnemyCars.add(enemyCar);
-        addActor(enemyCar);
+    private fun spawnCar() {
+        val lane = MathUtils.random(0, 2)
+        var x = 0f
+        if (lane == 0) x = lane0
+        if (lane == 1) x = lane1
+        if (lane == 2) x = lane2
+        val enemyCar = EnemyCar(x, getHeight())
+        arrayEnemyCars.add(enemyCar)
+        addActor(enemyCar)
     }
 
-    private void spawnCoin() {
-        int lane = MathUtils.random(0, 2);
-        float x = 0;
-        if (lane == 0)
-            x = lane0;
-        if (lane == 1)
-            x = lane1;
-        if (lane == 2)
-            x = lane2;
-        com.nopalsoft.dragracer.game_objects.Coin obj = new com.nopalsoft.dragracer.game_objects.Coin(x, getHeight());
-        arrCoins.add(obj);
-        addActor(obj);
+    private fun spawnCoin() {
+        val lane = MathUtils.random(0, 2)
+        var x = 0f
+        if (lane == 0) x = lane0
+        if (lane == 1) x = lane1
+        if (lane == 2) x = lane2
+        val obj = Coin(x, getHeight())
+        arrCoins.add(obj)
+        addActor(obj)
     }
 
+    companion object {
+        const val STATE_RUNNING: Int = 0
+        const val STATE_GAMEOVER: Int = 1
+
+        const val NUM_COINS_FOR_SUPER_SPEED: Int = 10
+    }
 }
