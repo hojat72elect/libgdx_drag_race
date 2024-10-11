@@ -1,65 +1,58 @@
-package com.nopalsoft.dragracer.scene2D;
+package com.nopalsoft.dragracer.scene2D
 
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.nopalsoft.dragracer.Assets;
-import com.nopalsoft.dragracer.screens.Screens;
+import com.badlogic.gdx.scenes.scene2d.Group
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.nopalsoft.dragracer.Assets
+import com.nopalsoft.dragracer.screens.Screens
 
-public class SwipeHorizontalTutorial extends Group {
+class SwipeHorizontalTutorial : Group() {
 
-    public SwipeHorizontalTutorial() {
-        setSize(Screens.SCREEN_WIDTH, 195);
-        setPosition(Screens.SCREEN_WIDTH / 2f - getWidth() / 2f, 0);
+    init {
+        setSize(Screens.SCREEN_WIDTH.toFloat(), 195f)
+        setPosition(Screens.SCREEN_WIDTH / 2f - width / 2f, 0f)
+
+        val swipeArrows = Image(Assets.swipeArrows)
+        swipeArrows.setPosition(
+            width / 2f - swipeArrows.width / 2f,
+            160f
+        )
+
+        val labelSwipeToMove = Label(
+            "Swipe to move",
+            Assets.labelStyleLarge
+        )
+        labelSwipeToMove.setPosition(
+            width / 2f - (labelSwipeToMove.width
+                    / 2f), 100f
+        )
+        labelSwipeToMove.color.a = 0f
+        labelSwipeToMove.addAction(Actions.fadeIn(1f))
 
 
-        final Image swipeArrows = new Image(Assets.swipeArrows);
-        swipeArrows.setPosition(getWidth() / 2f - swipeArrows.getWidth() / 2f,
-                160);
-
-        final Label labelSwipeToMove = new Label("Swipe to move",
-                Assets.labelStyleLarge);
-        labelSwipeToMove.setPosition(getWidth() / 2f - labelSwipeToMove.getWidth()
-                / 2f, 100);
-        labelSwipeToMove.getColor().a = 0;
-        labelSwipeToMove.addAction(Actions.fadeIn(1f));
-
-        final Image swipeHand = new Image(Assets.swipeHand);
-        swipeHand.setPosition(180, 10);
-        swipeHand.setOrigin(swipeHand.getWidth() / 2f,
-                swipeHand.getHeight() / 2f);
-        swipeHand.setScale(1.2f);
+        val swipeHand = Image(Assets.swipeHand)
+        swipeHand.setPosition(180f, 10f)
+        swipeHand.setOrigin(
+            swipeHand.width / 2f,
+            swipeHand.height / 2f
+        )
+        swipeHand.setScale(1.2f)
         swipeHand.addAction(
-                Actions.sequence(
+            Actions.sequence(
+                Actions.scaleTo(1f, 1f, .25f),
+                Actions.run { swipeHand.drawable = Assets.swipeHandDown },
+                Actions.moveTo(250f, 10f, .5f),
+                Actions.run { swipeHand.drawable = Assets.swipeHand },
+                Actions.scaleTo(1.1f, 1.1f, .15f),
+                Actions.run {
+                    swipeHand.remove()
+                    addActor(labelSwipeToMove)
+                }
+            ))
 
-                        Actions.scaleTo(1, 1, .25f),
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                swipeHand.setDrawable(Assets.swipeHandDown);
-                            }
-                        }),
-                        Actions.moveTo(250, 10, .5f), //
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                swipeHand.setDrawable(Assets.swipeHand);
+        addActor(swipeHand)
+        addActor(swipeArrows)
 
-                            }
-                        }),
-                        Actions.scaleTo(1.1f, 1.1f, .15f),//
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                swipeHand.remove();
-                                addActor(labelSwipeToMove);
-
-                            }
-                        })
-                ));
-
-        addActor(swipeHand);
-        addActor(swipeArrows);
     }
 }
