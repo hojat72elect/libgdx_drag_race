@@ -95,7 +95,7 @@ public class TrafficGame extends Table {
         Iterator<EnemyCar> iteratorEnemyCar = arrayEnemyCars.iterator();
         while (iteratorEnemyCar.hasNext()) {
             EnemyCar enemyCar = iteratorEnemyCar.next();
-            if (enemyCar.getBounds().y + enemyCar.getHeight() <= 0) {
+            if (enemyCar.bounds.y + enemyCar.getHeight() <= 0) {
                 iteratorEnemyCar.remove();
                 removeActor(enemyCar);
                 continue;
@@ -109,7 +109,7 @@ public class TrafficGame extends Table {
         iteratorEnemyCar = arrayEnemyCars.iterator();
         while (iteratorEnemyCar.hasNext()) {
             EnemyCar enemyCar = iteratorEnemyCar.next();
-            if (enemyCar.getBounds().overlaps(playerCar.getBounds())) {
+            if (enemyCar.bounds.overlaps(playerCar.getBounds())) {
                 iteratorEnemyCar.remove();
 
                 if (enemyCar.getX() > playerCar.getX()) {
@@ -157,7 +157,7 @@ public class TrafficGame extends Table {
 
             // I see if it's touching an enemy
             for (EnemyCar objEnemy : arrayEnemyCars) {
-                if (obj.getBounds().overlaps(objEnemy.getBounds())) {
+                if (obj.getBounds().overlaps(objEnemy.bounds)) {
                     iterator.remove();
                     removeActor(obj);
                     break;
