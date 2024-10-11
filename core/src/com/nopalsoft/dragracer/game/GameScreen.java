@@ -17,6 +17,7 @@ import com.nopalsoft.dragracer.Assets;
 import com.nopalsoft.dragracer.MainStreet;
 import com.nopalsoft.dragracer.Settings;
 import com.nopalsoft.dragracer.game_objects.SpeedBar;
+import com.nopalsoft.dragracer.scene2D.GameOverGroup;
 import com.nopalsoft.dragracer.scene2D.SwipeHorizontalTutorial;
 import com.nopalsoft.dragracer.scene2D.SwipeVerticalTutorial;
 import com.nopalsoft.dragracer.screens.MainMenuScreen;
@@ -43,7 +44,7 @@ public class GameScreen extends Screens {
     int score, coins;
     boolean canSuperSpeed;
     Group groupPaused;
-    com.nopalsoft.dragracer.scene2D.GameOverGroup gameOverGroup;
+    GameOverGroup gameOverGroup;
     Button buttonMusic;
     private final Stage stageGame;
     private final TrafficGame trafficGame;
@@ -207,7 +208,7 @@ public class GameScreen extends Screens {
         game.gameServiceHandler.submitScore(score);
         Settings.coinsTotal += coins;
         stage.clear();
-        gameOverGroup = new com.nopalsoft.dragracer.scene2D.GameOverGroup(this, score, coins);
+        gameOverGroup = new GameOverGroup(this, score, coins);
         stage.addActor(gameOverGroup);
         stage.addActor(labelTryAgain);
         stage.addActor(labelLeaderboard);
