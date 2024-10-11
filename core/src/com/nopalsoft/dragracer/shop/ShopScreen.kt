@@ -17,15 +17,13 @@ import com.nopalsoft.dragracer.screens.MainMenuScreen
 import com.nopalsoft.dragracer.screens.Screens
 
 class ShopScreen(game: MainStreet) : Screens(game) {
-    var buttonCharacters: Button? = null
-    var buttonPowerUps: Button? = null
-    var buttonCoins: Button? = null
-    var buttonNoAds: Button? = null
-    var buttonBack: Button? = null
-
-    var labelCoin: Label
-
-    var scrollPane: ScrollPane
+    private var buttonCharacters: Button? = null
+    private var buttonPowerUps: Button? = null
+    private var buttonCoins: Button? = null
+    private var buttonNoAds: Button? = null
+    private var buttonBack: Button? = null
+    private var labelCoin: Label
+    private var scrollPane: ScrollPane
     var container: Table
 
     init {

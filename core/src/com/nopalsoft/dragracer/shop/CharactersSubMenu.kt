@@ -17,39 +17,24 @@ import com.nopalsoft.dragracer.MainStreet
 import com.nopalsoft.dragracer.Settings
 import com.nopalsoft.dragracer.Settings.save
 
-class CharactersSubMenu(var game: MainStreet, var container: Table) {
-    // prices
-    val PRICE_BANSHEE: Int = 50
-    val PRICE_BULLET: Int = 175
-    val PRICE_TURISM: Int = 100
-    val PRICE_TORNADO: Int = 75
-    val PRICE_CAR_AUDI_S5: Int = 125
-    val PRICE_CAR_BMW_X6: Int = 150
-    val PRICE_CAR_CHEVROLET_CROSSFIRE: Int = 200
-    val PRICE_CAR_CITROEN_C4: Int = 225
-    val PRICE_CAR_DODGE_CHARGER: Int = 250
-    val PRICE_CAR_FIAT_500_LOUNGE: Int = 275
-    val PRICE_CAR_HONDA_CRV: Int = 300
-    val PRICE_CAR_MAZDA_6: Int = 325
-    val PRICE_CAR_MAZDA_RX8: Int = 350
-    val PRICE_CAR_SEAT_IBIZA: Int = 375
-    val PRICE_CAR_VOLKSWAGEN_SCIROCCO: Int = 400
+class CharactersSubMenu(var game: MainStreet, container: Table) {
 
-    var didBuyBanshee: Boolean = false
-    var didBuyTornado: Boolean = false
-    var didBuyTurismo: Boolean = false
-    var didBuyAudiS5: Boolean = false
-    var didBuyBmwX6: Boolean = false
-    var didBuyBullet: Boolean = false
-    var didBuyCrossfire: Boolean = false
-    var didBuyCitroenC4: Boolean = false
-    var didBuyDodgeCharger: Boolean = false
-    var didBuyFiat500: Boolean = false
-    var didBuyHondaCRV: Boolean = false
-    var didBuyMazda6: Boolean = false
-    var didBuyMazdaRX8: Boolean = false
-    var didBuySeatIbiza: Boolean = false
-    var didBuyVolkswagenScirocco: Boolean = false
+
+    var didBuyBanshee  = false
+    var didBuyTornado  = false
+    var didBuyTurismo  = false
+    var didBuyAudiS5  = false
+    var didBuyBmwX6  = false
+    var didBuyBullet  = false
+    var didBuyCrossfire  = false
+    var didBuyCitroenC4  = false
+    var didBuyDodgeCharger  = false
+    var didBuyFiat500 = false
+    var didBuyHondaCRV = false
+    var didBuyMazda6 = false
+    var didBuyMazdaRX8 = false
+    var didBuySeatIbiza = false
+    var didBuyVolkswagenScirocco = false
     var buttonBuyDiablo: TextButton? = null
     var buttonBuyBanshee: TextButton? = null
     var buttonBuyTornado: TextButton? = null
@@ -66,7 +51,7 @@ class CharactersSubMenu(var game: MainStreet, var container: Table) {
     var buttonBuyMazdaRX8: TextButton? = null
     var buttonBuySeatIbiza: TextButton? = null
     var buttonBuyVolkswagenScirocco: TextButton? = null
-    var arrayButtons: Array<TextButton>? = null
+    private var arrayButtons: Array<TextButton>? = null
 
     init {
         loadPurchases()
@@ -836,23 +821,40 @@ class CharactersSubMenu(var game: MainStreet, var container: Table) {
 
     companion object {
         // cars
-        const val SKIN_CAR_DEVIL: Int = 0
-        const val SKIN_CAR_BANSHEE: Int = 1
-        const val SKIN_CAR_TURISM: Int = 3
-        const val SKIN_CAR_BULLET: Int = 6
-        const val SKIN_CAR_TORNADO: Int = 2
-        const val SKIN_CAR_AUDI_S5: Int = 4
-        const val SKIN_CAR_BMW_X6: Int = 5
-        const val SKIN_CAR_CHEVROLET_CROSSFIRE: Int = 7
-        const val SKIN_CAR_CITROEN_C4: Int = 8
-        const val SKIN_CAR_DODGE_CHARGER: Int = 9
-        const val SKIN_CAR_FIAT_500_LOUNGE: Int = 10
-        const val SKIN_CAR_HONDA_CRV: Int = 11
-        const val SKIN_CAR_MAZDA_6: Int = 12
-        const val SKIN_CAR_MAZDA_RX8: Int = 13
-        const val SKIN_CAR_SEAT_IBIZA: Int = 14
-        const val SKIN_CAR_VOLKSWAGEN_SCIROCCO: Int = 15
+        const val SKIN_CAR_DEVIL = 0
+        const val SKIN_CAR_BANSHEE = 1
+        const val SKIN_CAR_TURISM = 3
+        const val SKIN_CAR_BULLET = 6
+        const val SKIN_CAR_TORNADO = 2
+        const val SKIN_CAR_AUDI_S5 = 4
+        const val SKIN_CAR_BMW_X6 = 5
+        const val SKIN_CAR_CHEVROLET_CROSSFIRE = 7
+        const val SKIN_CAR_CITROEN_C4 = 8
+        const val SKIN_CAR_DODGE_CHARGER = 9
+        const val SKIN_CAR_FIAT_500_LOUNGE = 10
+        const val SKIN_CAR_HONDA_CRV = 11
+        const val SKIN_CAR_MAZDA_6 = 12
+        const val SKIN_CAR_MAZDA_RX8 = 13
+        const val SKIN_CAR_SEAT_IBIZA = 14
+        const val SKIN_CAR_VOLKSWAGEN_SCIROCCO = 15
 
         private val pref: Preferences = Gdx.app.getPreferences("com.tiar.dragrace.shop")
+
+        // prices
+        const val PRICE_BANSHEE = 50
+        const val PRICE_BULLET = 175
+        const val PRICE_TURISM = 100
+        const val PRICE_TORNADO = 75
+        const val PRICE_CAR_AUDI_S5 = 125
+        const val PRICE_CAR_BMW_X6 = 150
+        const val PRICE_CAR_CHEVROLET_CROSSFIRE = 200
+        const val PRICE_CAR_CITROEN_C4 = 225
+        const val PRICE_CAR_DODGE_CHARGER = 250
+        const val PRICE_CAR_FIAT_500_LOUNGE = 275
+        const val PRICE_CAR_HONDA_CRV = 300
+        const val PRICE_CAR_MAZDA_6 = 325
+        const val PRICE_CAR_MAZDA_RX8 = 350
+        const val PRICE_CAR_SEAT_IBIZA = 375
+        const val PRICE_CAR_VOLKSWAGEN_SCIROCCO = 400
     }
 }

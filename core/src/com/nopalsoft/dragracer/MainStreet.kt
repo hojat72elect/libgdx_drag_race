@@ -9,7 +9,7 @@ import com.nopalsoft.dragracer.handlers.RequestHandler
 import com.nopalsoft.dragracer.screens.MainMenuScreen
 import com.nopalsoft.dragracer.screens.Screens
 
-class MainStreet(@JvmField val reqHandler: RequestHandler, @JvmField val gameServiceHandler: GameServicesHandler):Game() {
+class MainStreet( val reqHandler: RequestHandler,  val gameServiceHandler: GameServicesHandler):Game() {
 
     lateinit var stage: Stage
 lateinit var batcher: SpriteBatch

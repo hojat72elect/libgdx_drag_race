@@ -19,7 +19,7 @@ class EnemyCar(x: Float, y: Float) : Actor() {
     private var keyframe: TextureRegion
     private var renders = ShapeRenderer()
 
-    @JvmField
+
     val bounds = Rectangle()
     private val moveAction: MoveToAction
 
@@ -158,7 +158,7 @@ class EnemyCar(x: Float, y: Float) : Actor() {
             drawHeight / 2f, drawWidth, drawHeight, 1f, 1f, rotation
         )
 
-        if (Settings.drawDebugLines) {
+        if (Settings.DRAW_DEBUG_LINES) {
             batch.end()
             renders.projectionMatrix = batch.projectionMatrix
             renders.begin(ShapeType.Line)

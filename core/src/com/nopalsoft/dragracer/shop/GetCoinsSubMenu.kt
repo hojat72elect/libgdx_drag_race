@@ -14,12 +14,11 @@ import com.nopalsoft.dragracer.Assets
 import com.nopalsoft.dragracer.MainStreet
 import com.nopalsoft.dragracer.Settings
 
-class GetCoinsSubMenu(var game: MainStreet, var container: Table) {
+class GetCoinsSubMenu(var game: MainStreet, container: Table) {
     // Number of coins that player will receive if they like our page on facebook
-    var coinsLikeFacebook: Int = 250
-
+    var coinsLikeFacebook = 250
     var buttonLikeFacebook: TextButton
-    var buttonBuy50MillionCoins: TextButton
+    private var buttonBuy50MillionCoins: TextButton
 
     init {
         container.clear()

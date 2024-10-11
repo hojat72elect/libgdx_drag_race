@@ -47,7 +47,7 @@ class Coin(x: Float, y: Float) : Actor() {
             height / 2f, width, height, 1f, 1f, rotation
         )
 
-        if (Settings.drawDebugLines) {
+        if (Settings.DRAW_DEBUG_LINES) {
             batch.end()
             renders.projectionMatrix = batch.projectionMatrix
             renders.begin(ShapeType.Line)

@@ -13,7 +13,7 @@ import com.nopalsoft.dragracer.Assets
 import com.nopalsoft.dragracer.MainStreet
 import com.nopalsoft.dragracer.Settings
 
-class NoAdsSubMenu(var game: MainStreet, var container: Table) {
+open class NoAdsSubMenu(var game: MainStreet, container: Table) {
     var priceNoAds: Int = 20000
 
     var buttonNoAds: TextButton
@@ -94,7 +94,7 @@ class NoAdsSubMenu(var game: MainStreet, var container: Table) {
         return tableContent
     }
 
-    protected fun addPressEffect(actor: Actor) {
+    private fun addPressEffect(actor: Actor) {
         actor.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent, x: Float, y: Float,

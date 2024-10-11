@@ -212,7 +212,7 @@ object Assets {
         if (Settings.isMusicOn) music.play()
     }
 
-    @JvmStatic
+
     fun playSound(sound: Sound) {
         if (Settings.isMusicOn) {
             sound.play(1f)

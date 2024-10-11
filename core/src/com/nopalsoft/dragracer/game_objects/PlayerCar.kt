@@ -18,7 +18,7 @@ class PlayerCar(private val trafficGame: TrafficGame) : Actor() {
 
     val bounds = Rectangle()
 
-    @JvmField
+
     var state = 0
     private var stateTime = 0f
     private var moveTime = .75f
@@ -198,7 +198,7 @@ class PlayerCar(private val trafficGame: TrafficGame) : Actor() {
                 )
             }
         }
-        if (Settings.drawDebugLines) {
+        if (Settings.DRAW_DEBUG_LINES) {
             batch.end()
             renders.projectionMatrix = batch.projectionMatrix
             renders.begin(ShapeType.Line)

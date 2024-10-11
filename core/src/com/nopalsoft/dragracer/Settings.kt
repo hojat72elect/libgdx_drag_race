@@ -8,32 +8,18 @@ object Settings {
     const val TIMES_TO_SHOW_AD = 5
 
     private val pref = Gdx.app.getPreferences("com.tiar.dragrace.shop")
-
-    @JvmField
-    val drawDebugLines = false
-
-    @JvmField
+    const val DRAW_DEBUG_LINES = false
     var numberOfTimesPlayed = 0
-
-    @JvmField
     var bestScore = 0
-
-    @JvmField
     var coinsTotal = 0
-
-    @JvmField
     var didBuyNoAds = false
-
-    @JvmField
     var didLikeFacebook = false
 
     @JvmField
     var isMusicOn = true
-
-    @JvmField
     var selectedSkin = CharactersSubMenu.SKIN_CAR_DEVIL
 
-    @JvmStatic
+
     fun load() {
         numberOfTimesPlayed = pref.getInteger("numeroVecesJugadas")
         bestScore = pref.getInteger("bestScore")
@@ -58,7 +44,7 @@ object Settings {
         pref.flush()
     }
 
-    @JvmStatic
+
     fun setNewScore(score: Int) {
         if (bestScore < score) {
             bestScore = score
