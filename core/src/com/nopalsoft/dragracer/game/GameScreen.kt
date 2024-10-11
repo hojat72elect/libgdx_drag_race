@@ -26,22 +26,22 @@ import com.nopalsoft.dragracer.screens.Screens
 import com.nopalsoft.dragracer.shop.ShopScreen
 
 class GameScreen(game: MainStreet?) : Screens(game) {
-    var TIME_TO_START: Int = 3 // Time that appears at the beginning
 
-    var labelScore: Label? = null
-    var labelCoin: Label? = null
-    var tableScores: Table? = null
 
-    var labelTryAgain: Label? = null
-    var labelShopScreen: Label? = null
-    var labelLeaderboard: Label? = null
+    private var labelScore: Label? = null
+    private var labelCoin: Label? = null
+    private var tableScores: Table? = null
 
-    var speedBar: SpeedBar? = null
-    var score: Int = 0
-    var coins: Int = 0
-    var canSuperSpeed: Boolean = false
-    var groupPaused: Group? = null
-    var gameOverGroup: GameOverGroup? = null
+    private var labelTryAgain: Label? = null
+    private var labelShopScreen: Label? = null
+    private var labelLeaderboard: Label? = null
+
+    private var speedBar: SpeedBar? = null
+    private var score: Int = 0
+    private var coins: Int = 0
+    private var canSuperSpeed: Boolean = false
+    private var groupPaused: Group? = null
+    private var gameOverGroup: GameOverGroup? = null
     var buttonMusic: Button? = null
     private val stageGame = Stage(StretchViewport(SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat()))
     private val trafficGame = TrafficGame()
@@ -271,12 +271,15 @@ class GameScreen(game: MainStreet?) : Screens(game) {
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (keycode == Input.Keys.LEFT || keycode == Input.Keys.A) trafficGame.playerCar.tryMoveLeft()
-        else if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.D) trafficGame.playerCar.tryMoveRight()
-        else if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) changeScreenWithFadeOut(
-            MainMenuScreen::class.java, game
-        )
-        else if (keycode == Input.Keys.SPACE) trafficGame.setSuperSpeed()
+        when (keycode) {
+            Input.Keys.LEFT, Input.Keys.A -> trafficGame.playerCar.tryMoveLeft()
+            Input.Keys.RIGHT, Input.Keys.D -> trafficGame.playerCar.tryMoveRight()
+            Input.Keys.ESCAPE, Input.Keys.BACK -> changeScreenWithFadeOut(
+                MainMenuScreen::class.java, game
+            )
+
+            Input.Keys.SPACE -> trafficGame.setSuperSpeed()
+        }
 
         return true
     }
@@ -287,5 +290,6 @@ class GameScreen(game: MainStreet?) : Screens(game) {
         const val STATE_PAUSED: Int = 3
         const val STATE_GAME_OVER: Int = 4
         var state: Int = 0
+        var TIME_TO_START: Int = 3 // Time that appears at the beginning
     }
 }
