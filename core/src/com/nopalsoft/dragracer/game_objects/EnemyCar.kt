@@ -14,13 +14,13 @@ import com.nopalsoft.dragracer.Settings
 import com.nopalsoft.dragracer.shop.CharactersSubMenu
 
 class EnemyCar(x: Float, y: Float) : Actor() {
-    var type: Int = MathUtils.random(16)
-    var isSuperSpeed: Boolean = false
-    lateinit var keyframe: TextureRegion
-    var renders: ShapeRenderer = ShapeRenderer()
+    private var type = MathUtils.random(16)
+    private var isSuperSpeed = false
+    private var keyframe: TextureRegion
+    private var renders = ShapeRenderer()
 
     @JvmField
-    val bounds: Rectangle = Rectangle()
+    val bounds = Rectangle()
     private val moveAction: MoveToAction
 
     init {
@@ -30,104 +30,104 @@ class EnemyCar(x: Float, y: Float) : Actor() {
         when (type) {
             CharactersSubMenu.SKIN_CAR_DEVIL -> {
                 keyframe = Assets.carDevil
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_BANSHEE -> {
                 keyframe = Assets.carBanshee
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_TORNADO -> {
                 keyframe = Assets.carTornado
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_TURISM -> {
                 keyframe = Assets.carTourism
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_AUDI_S5 -> {
                 keyframe = Assets.carAudiS5
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_BMW_X6 -> {
                 keyframe = Assets.carBmwX6
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_BULLET -> {
                 keyframe = Assets.carBullet
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_CHEVROLET_CROSSFIRE -> {
                 keyframe = Assets.carChevroletCrossfire
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_CITROEN_C4 -> {
                 keyframe = Assets.carCitroenC4
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_DODGE_CHARGER -> {
                 keyframe = Assets.carDodgeCharger
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_FIAT_500_LOUNGE -> {
                 keyframe = Assets.carFiat500Lounge
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_HONDA_CRV -> {
                 keyframe = Assets.carHondaCRV
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_MAZDA_6 -> {
                 keyframe = Assets.carMazda6
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_MAZDA_RX8 -> {
                 keyframe = Assets.carMazdaRX8
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_SEAT_IBIZA -> {
                 keyframe = Assets.carSeatIbiza
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             CharactersSubMenu.SKIN_CAR_VOLKSWAGEN_SCIROCCO -> {
                 keyframe = Assets.carVolkswagenScirocco
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
 
             else -> {
                 keyframe = Assets.carVolkswagenScirocco
-                width = keyframe.getRegionWidth().toFloat()
-                height = keyframe.getRegionHeight().toFloat()
+                width = keyframe.regionWidth.toFloat()
+                height = keyframe.regionHeight.toFloat()
             }
         }
         // I subtract less 5 so that the bounds are not so big: See draw method.
