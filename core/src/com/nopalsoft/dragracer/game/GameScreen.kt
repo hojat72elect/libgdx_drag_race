@@ -163,7 +163,7 @@ class GameScreen(game: MainStreet?) : Screens(game) {
 
         score = trafficGame.score.toInt()
         coins = trafficGame.coins
-        if (trafficGame.state == TrafficGame.STATE_GAMEOVER) {
+        if (trafficGame.state == TrafficGame.STATE_GAME_OVER) {
             setGameover()
         }
 

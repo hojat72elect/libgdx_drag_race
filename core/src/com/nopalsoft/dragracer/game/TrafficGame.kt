@@ -12,36 +12,32 @@ import com.nopalsoft.dragracer.game_objects.PlayerCar
 import com.nopalsoft.dragracer.screens.Screens
 
 class TrafficGame : Table() {
-    val lane2: Float = 390f
-    val lane1: Float = 240f
-    val lane0: Float = 90f
+    val lane2 = 390F
+    val lane1 = 240F
+    val lane0 = 90F
 
-    val _width: Float = Screens.WORLD_WIDTH
-    val _height: Float = Screens.WORLD_HEIGHT
-
-    val TIME_TO_SPAWN_CAR: Float = 2f
-    val TIME_TO_SPAWN_COIN: Float = 1f
-    val DURATION_SUPER_SPEED: Float = 5f
+    private val _width = Screens.WORLD_WIDTH
+    private val _height = Screens.WORLD_HEIGHT
 
     private val backgroundRoad: InfiniteScrollBackground
     private val arrayEnemyCars: Array<EnemyCar>
     private val arrCoins: Array<Coin>
     var state: Int
-    var numberOfCoinsForSuperSpeed: Int = 0
+    var numberOfCoinsForSuperSpeed = 0
     var playerCar: PlayerCar
-    var canSuperSpeed: Boolean = false
-    var timeToSpawnCar: Float = 0f
-    var timeToSpawnCoin: Float = 0f
-    var durationSuperSpeed: Float = 0f
-    var isSuperSpeed: Boolean = false
-    var currentSpeed: Float = 5f
-    var score: Float = 0f
-    var coins: Int = 0
+    var canSuperSpeed = false
+    private var timeToSpawnCar = 0f
+    private var timeToSpawnCoin = 0f
+    private var durationSuperSpeed = 0f
+    private var isSuperSpeed = false
+    private var currentSpeed = 5f
+    var score = 0f
+    var coins = 0
 
     init {
         setBounds(0f, 0f, _width, _height)
         clip = true
-        backgroundRoad = InfiniteScrollBackground(getWidth(), getHeight())
+        backgroundRoad = InfiniteScrollBackground(width, height)
         addActor(backgroundRoad)
 
         playerCar = PlayerCar(this)
@@ -66,11 +62,11 @@ class TrafficGame : Table() {
 
 
         updateEnemyCar(delta)
-        updateMonedas(delta)
+        updateCoins(delta)
         score += delta * currentSpeed
 
         if (playerCar.state == PlayerCar.STATE_DEAD) {
-            state = STATE_GAMEOVER
+            state = STATE_GAME_OVER
         }
     }
 
@@ -83,7 +79,7 @@ class TrafficGame : Table() {
             spawnCar()
         }
 
-        var iteratorEnemyCar: MutableIterator<EnemyCar> = arrayEnemyCars.iterator()
+        var iteratorEnemyCar = arrayEnemyCars.iterator()
         while (iteratorEnemyCar.hasNext()) {
             val enemyCar = iteratorEnemyCar.next()
             if (enemyCar.bounds.y + enemyCar.height <= 0) {
@@ -104,10 +100,10 @@ class TrafficGame : Table() {
 
                 if (enemyCar.x > playerCar.x) {
                     enemyCar.crash(true, enemyCar.y > playerCar.y)
-                    if (!isSuperSpeed) playerCar.crash(false, true)
+                    if (isSuperSpeed.not()) playerCar.crash(front = false, above = true)
                 } else {
                     enemyCar.crash(false, enemyCar.y > playerCar.y)
-                    if (!isSuperSpeed) playerCar.crash(true, true)
+                    if (isSuperSpeed.not()) playerCar.crash(front = true, above = true)
                 }
                 Assets.soundCrash.stop()
                 playSound(Assets.soundCrash)
@@ -115,7 +111,7 @@ class TrafficGame : Table() {
         }
     }
 
-    private fun updateMonedas(delta: Float) {
+    private fun updateCoins(delta: Float) {
         timeToSpawnCoin += delta
 
         if (timeToSpawnCoin >= TIME_TO_SPAWN_COIN) {
@@ -123,7 +119,7 @@ class TrafficGame : Table() {
             spawnCoin()
         }
 
-        val iterator: MutableIterator<Coin> = arrCoins.iterator()
+        val iterator = arrCoins.iterator()
         while (iterator.hasNext()) {
             val obj = iterator.next()
             if (obj.bounds.y + obj.height <= 0) {
@@ -162,7 +158,7 @@ class TrafficGame : Table() {
         backgroundRoad.setSpeed()
     }
 
-    fun stopSuperSpeed() {
+    private fun stopSuperSpeed() {
         isSuperSpeed = false
         currentSpeed = 5f
         backgroundRoad.stopSpeed()
@@ -174,7 +170,7 @@ class TrafficGame : Table() {
         if (lane == 0) x = lane0
         if (lane == 1) x = lane1
         if (lane == 2) x = lane2
-        val enemyCar = EnemyCar(x, getHeight())
+        val enemyCar = EnemyCar(x, height)
         arrayEnemyCars.add(enemyCar)
         addActor(enemyCar)
     }
@@ -185,15 +181,17 @@ class TrafficGame : Table() {
         if (lane == 0) x = lane0
         if (lane == 1) x = lane1
         if (lane == 2) x = lane2
-        val obj = Coin(x, getHeight())
+        val obj = Coin(x, height)
         arrCoins.add(obj)
         addActor(obj)
     }
 
     companion object {
-        const val STATE_RUNNING: Int = 0
-        const val STATE_GAMEOVER: Int = 1
-
-        const val NUM_COINS_FOR_SUPER_SPEED: Int = 10
+        const val STATE_RUNNING = 0
+        const val STATE_GAME_OVER = 1
+        const val NUM_COINS_FOR_SUPER_SPEED = 10
+        private const val TIME_TO_SPAWN_CAR = 2f
+        private const val TIME_TO_SPAWN_COIN = 1f
+        private const val DURATION_SUPER_SPEED = 5f
     }
 }
