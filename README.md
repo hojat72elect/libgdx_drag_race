@@ -1,6 +1,7 @@
 # LibGDX Drag Racing
 
-[Try the game in your Browser](https://yayo-arellano.github.io/libgdx_drag_race/)
+this is an example 2D endless side-ways runner game made with LibGDX. I am trying to use it as a sample of LibGDX.
+Have mostly migrated this project to Kotlin.
 
 # Video
 
