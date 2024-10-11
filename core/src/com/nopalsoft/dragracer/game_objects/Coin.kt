@@ -1,78 +1,76 @@
-package com.nopalsoft.dragracer.game_objects;
+package com.nopalsoft.dragracer.game_objects
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.nopalsoft.dragracer.Assets;
-import com.nopalsoft.dragracer.Settings;
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
+import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
+import com.nopalsoft.dragracer.Assets
+import com.nopalsoft.dragracer.Settings
 
-public class Coin extends Actor {
+class Coin(x: Float, y: Float) : Actor() {
 
-    final int STATE_NORMAL = 0;
-    private final Rectangle bounds = new Rectangle();
-    private final MoveToAction moveAction;
-    public int state;
-    boolean isSuperSpeed;
-    ShapeRenderer renders = new ShapeRenderer();
+    val bounds = Rectangle()
+    private var moveAction: MoveToAction
+    private var state = 0
+    private var isSuperSpeed = false
+    private var renders = ShapeRenderer()
 
-    public Coin(float x, float y) {
+    init {
 
         // I subtract less 5 so that the bounds are not so big: See draw method.
-        setWidth(10);
-        setHeight(32);
-        setPosition(x - getWidth() / 2f, y);
+        width = 10f
+        height = 32f
+        setPosition(x - width / 2f, y)
 
-        addAction(Actions.forever(Actions.rotateBy(360, 1f)));
+        addAction(Actions.forever(Actions.rotateBy(360f, 1f)))
 
-        moveAction = new MoveToAction();
-        moveAction.setPosition(getX(), -getHeight());
-        moveAction.setDuration(5);
-        addAction(moveAction);
+        moveAction = MoveToAction()
+        moveAction.setPosition(getX(), -height)
+        moveAction.duration = 5f
+        addAction(moveAction)
 
-        state = STATE_NORMAL;
+        state = STATE_NORMAL
+
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        updateBounds();
+    override fun act(delta: Float) {
+        super.act(delta)
+        updateBounds()
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-
-        batch.draw(Assets.coin, getX(), getY(), getWidth() / 2f,
-                getHeight() / 2f, getWidth(), getHeight(), 1, 1, getRotation());
+    override fun draw(batch: Batch, parentAlpha: Float) {
+        batch.draw(
+            Assets.coin, x, y, width / 2f,
+            height / 2f, width, height, 1f, 1f, rotation
+        )
 
         if (Settings.drawDebugLines) {
-            batch.end();
-            renders.setProjectionMatrix(batch.getProjectionMatrix());
-            renders.begin(ShapeType.Line);
-            renders.rect(bounds.x, bounds.y, bounds.width, bounds.height);
-            renders.end();
-            batch.begin();
+            batch.end()
+            renders.projectionMatrix = batch.projectionMatrix
+            renders.begin(ShapeType.Line)
+            renders.rect(bounds.x, bounds.y, bounds.width, bounds.height)
+            renders.end()
+            batch.begin()
         }
     }
 
-    private void updateBounds() {
-        bounds.set(getX(), getY(), getWidth(), getHeight());
-
+    private fun updateBounds() {
+        bounds.set(x, y, width, height)
     }
 
-    public void setSpeed() {
-        if (!isSuperSpeed) {
-            isSuperSpeed = true;
-            moveAction.reset();
-            moveAction.setDuration(1f);
-            addAction(moveAction);
+    fun setSpeed() {
+        if (isSuperSpeed.not()) {
+            isSuperSpeed = true
+            moveAction.reset()
+            moveAction.duration = 1f
+            addAction(moveAction)
         }
     }
 
-    public Rectangle getBounds() {
-        return bounds;
+    companion object {
+        private const val STATE_NORMAL = 0
     }
 }
