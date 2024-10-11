@@ -15,22 +15,16 @@ import com.nopalsoft.dragracer.game.GameScreen
 import com.nopalsoft.dragracer.shop.ShopScreen
 
 class MainMenuScreen(game: MainStreet) : Screens(game) {
-    var imageTitle: Image = Image(Assets.title)
 
-    var labelShopScreen: Label
-    var labelPlay: Label
-    var labelLeaderboard: Label
-    var labelRate: Label
+    private var imageTitle = Image(Assets.title)
+    private var labelShopScreen = Label("Shop screen", Assets.labelStyleLarge)
+    private var labelPlay = Label("Play", Assets.labelStyleLarge)
+    private var labelLeaderboard = Label("Leaderboard", Assets.labelStyleLarge)
+    private var labelRate = Label("Rate", Assets.labelStyleLarge)
 
-    var buttonMusic: Button
+    var buttonMusic = Button(Assets.styleButtonMusic)
 
     init {
-
-        labelPlay = Label("Play", Assets.labelStyleLarge)
-        labelRate = Label("Rate", Assets.labelStyleLarge)
-        labelLeaderboard = Label("Leaderboard", Assets.labelStyleLarge)
-        labelShopScreen = Label("Shop screen", Assets.labelStyleLarge)
-        buttonMusic = Button(Assets.styleButtonMusic)
 
 
         imageTitle.setPosition(SCREEN_WIDTH / 2f - imageTitle.width / 2f, 520f)
