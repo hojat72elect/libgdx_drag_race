@@ -23,6 +23,9 @@ import com.nopalsoft.dragracer.game.GameScreen
 import com.nopalsoft.dragracer.shop.ShopScreen
 import kotlin.math.abs
 
+/**
+ * This class was supposed to replace BaseScreen.java but I keep facing a weird runtime issue when I use this class.
+ */
 abstract class NewBaseScreen(game: MainStreet) : InputAdapter(), Screen, GestureListener {
 
     private val camera = OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT)
