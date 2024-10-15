@@ -22,10 +22,10 @@ import com.nopalsoft.dragracer.scene2D.GameOverGroup
 import com.nopalsoft.dragracer.scene2D.SwipeHorizontalTutorial
 import com.nopalsoft.dragracer.scene2D.SwipeVerticalTutorial
 import com.nopalsoft.dragracer.screens.MainMenuScreen
-import com.nopalsoft.dragracer.screens.Screens
+import com.nopalsoft.dragracer.screens.BaseScreen
 import com.nopalsoft.dragracer.shop.ShopScreen
 
-class GameScreen(game: MainStreet?) : Screens(game) {
+class GameScreen(game: MainStreet?) : BaseScreen(game) {
 
 
     private lateinit var labelScore: Label

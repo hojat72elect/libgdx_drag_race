@@ -13,18 +13,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Align
 import com.nopalsoft.dragracer.Assets
 import com.nopalsoft.dragracer.Settings
-import com.nopalsoft.dragracer.screens.Screens
+import com.nopalsoft.dragracer.screens.BaseScreen
 
-class GameOverGroup(screen: Screens, distancia: Int, coins: Int) : Group() {
+class GameOverGroup(screen: BaseScreen, distance: Int, coins: Int) : Group() {
     init {
         setSize(420f, 350f)
-        setPosition(Screens.SCREEN_WIDTH / 2f - width / 2f, 900f)
+        setPosition(BaseScreen.SCREEN_WIDTH / 2f - width / 2f, 900f)
         addAction(Actions.moveTo(x, 390f, 1f, Interpolation.bounceOut))
         val background = Image(Assets.scoresBackground)
         background.setSize(width, height)
         addActor(background)
 
-        val labelScore = Label("Distance\n${distancia}m", Assets.labelStyleLarge)
+        val labelScore = Label("Distance\n${distance}m", Assets.labelStyleLarge)
         labelScore.setAlignment(Align.center)
         labelScore.setFontScale(1.3f)
         labelScore.setPosition(width / 2f - labelScore.width / 2f, 210f)
@@ -39,7 +39,7 @@ class GameOverGroup(screen: Screens, distancia: Int, coins: Int) : Group() {
         labelBestScore.setAlignment(Align.left)
         labelBestScore.setFontScale(.75f)
 
-        val labelNumBestScore = Label(Settings.bestScore.toString() + "m", Assets.labelStyleLarge)
+        val labelNumBestScore = Label("${Settings.bestScore}m", Assets.labelStyleLarge)
         labelNumBestScore.setAlignment(Align.right)
         labelNumBestScore.setFontScale(.75f)
 
@@ -57,10 +57,6 @@ class GameOverGroup(screen: Screens, distancia: Int, coins: Int) : Group() {
         bestScoreTable.add(labelCoins).left()
         bestScoreTable.add(labelNumBestCoins).right().expand()
 
-
-        // Facebook + Twitter
-        var buttonShareFacebook: Button
-
         val buttonShareTwitter = Button(TextureRegionDrawable(Assets.buttonTwitter))
         buttonShareTwitter.setSize(50f, 50f)
         buttonShareTwitter.setPosition(155f, 20f)
@@ -68,25 +64,19 @@ class GameOverGroup(screen: Screens, distancia: Int, coins: Int) : Group() {
         buttonShareTwitter.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 screen.game.reqHandler
-                    .shareOnTwitter(
-                        "My best distance playing Drag Racing V6 is "
-                                + Settings.bestScore + "m, can you beat me?"
-                    )
+                    .shareOnTwitter("My best distance playing Drag Racing V6 is ${Settings.bestScore}m, can you beat me?")
             }
         })
 
 
-        buttonShareFacebook = Button(TextureRegionDrawable(Assets.buttonFacebook))
+        // Facebook + Twitter
+        val buttonShareFacebook = Button(TextureRegionDrawable(Assets.buttonFacebook))
         buttonShareFacebook.setSize(50f, 50f)
         buttonShareFacebook.setPosition(225f, 20f)
         screen.addPressEffect(buttonShareFacebook)
         buttonShareFacebook.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                screen.game.reqHandler
-                    .shareOnFacebook(
-                        "My best distance playing Drag Racing V6 is "
-                                + Settings.bestScore + "m, can you beat me?"
-                    )
+                screen.game.reqHandler.shareOnFacebook("My best distance playing Drag Racing V6 is ${Settings.bestScore}m, can you beat me?")
             }
         })
 

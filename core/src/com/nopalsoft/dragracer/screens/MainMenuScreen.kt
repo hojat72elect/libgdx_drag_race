@@ -14,7 +14,7 @@ import com.nopalsoft.dragracer.Settings
 import com.nopalsoft.dragracer.game.GameScreen
 import com.nopalsoft.dragracer.shop.ShopScreen
 
-class MainMenuScreen(game: MainStreet) : Screens(game) {
+class MainMenuScreen(game: MainStreet) : BaseScreen(game) {
 
     private var imageTitle = Image(Assets.title)
     private var labelShopScreen = Label("Shop screen", Assets.labelStyleLarge)

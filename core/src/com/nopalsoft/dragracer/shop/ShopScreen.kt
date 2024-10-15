@@ -14,9 +14,9 @@ import com.nopalsoft.dragracer.Assets
 import com.nopalsoft.dragracer.MainStreet
 import com.nopalsoft.dragracer.Settings
 import com.nopalsoft.dragracer.screens.MainMenuScreen
-import com.nopalsoft.dragracer.screens.Screens
+import com.nopalsoft.dragracer.screens.BaseScreen
 
-class ShopScreen(game: MainStreet) : Screens(game) {
+class ShopScreen(game: MainStreet) : BaseScreen(game) {
     private var buttonCharacters: Button? = null
     private var buttonPowerUps: Button? = null
     private var buttonCoins: Button? = null

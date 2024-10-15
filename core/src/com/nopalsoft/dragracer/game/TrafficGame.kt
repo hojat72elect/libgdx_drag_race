@@ -9,15 +9,15 @@ import com.nopalsoft.dragracer.game_objects.Coin
 import com.nopalsoft.dragracer.game_objects.EnemyCar
 import com.nopalsoft.dragracer.game_objects.InfiniteScrollBackground
 import com.nopalsoft.dragracer.game_objects.PlayerCar
-import com.nopalsoft.dragracer.screens.Screens
+import com.nopalsoft.dragracer.screens.BaseScreen
 
 class TrafficGame : Table() {
     val lane2 = 390F
     val lane1 = 240F
     val lane0 = 90F
 
-    private val _width = Screens.WORLD_WIDTH
-    private val _height = Screens.WORLD_HEIGHT
+    private val _width = BaseScreen.WORLD_WIDTH
+    private val _height = BaseScreen.WORLD_HEIGHT
 
     private val backgroundRoad: InfiniteScrollBackground
     private val arrayEnemyCars: Array<EnemyCar>

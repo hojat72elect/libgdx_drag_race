@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.nopalsoft.dragracer.Assets
-import com.nopalsoft.dragracer.screens.Screens
+import com.nopalsoft.dragracer.screens.BaseScreen
 
 /**
  * This is part of the HUD system of the game; which teaches the gamer how to do turbo in mobile phone.
@@ -22,12 +22,12 @@ class SwipeVerticalTutorial(stage: Stage) {
     init {
 
         labelSwipeToMove.setPosition(
-            Screens.SCREEN_WIDTH / 2f - (labelSwipeToMove.width / 2f),
+            BaseScreen.SCREEN_WIDTH / 2f - (labelSwipeToMove.width / 2f),
             600f
         )
 
         labelSwipeToMove.color.a = 0f
-        swipeHand.setPosition(Screens.SCREEN_WIDTH / 2f, 400f)
+        swipeHand.setPosition(BaseScreen.SCREEN_WIDTH / 2f, 400f)
         swipeHand.setOrigin(swipeHand.width / 2f, swipeHand.height / 2f)
         swipeHand.setScale(1.2f)
 

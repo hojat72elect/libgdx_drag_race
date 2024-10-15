@@ -5,13 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.nopalsoft.dragracer.Assets
-import com.nopalsoft.dragracer.screens.Screens
+import com.nopalsoft.dragracer.screens.BaseScreen
 
 class SwipeHorizontalTutorial : Group() {
 
     init {
-        setSize(Screens.SCREEN_WIDTH.toFloat(), 195f)
-        setPosition(Screens.SCREEN_WIDTH / 2f - width / 2f, 0f)
+        setSize(BaseScreen.SCREEN_WIDTH.toFloat(), 195f)
+        setPosition(BaseScreen.SCREEN_WIDTH / 2f - width / 2f, 0f)
 
         val swipeArrows = Image(Assets.swipeArrows)
         swipeArrows.setPosition(
