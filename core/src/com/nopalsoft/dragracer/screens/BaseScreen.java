@@ -75,22 +75,22 @@ public abstract class BaseScreen extends InputAdapter implements Screen,
     }
 
     public void changeScreenWithFadeOut(final Class<?> newScreen,
-                                        final MainStreet game) {
+                                        final MainStreet game
+    ) {
         blackFadeOut = new Image(Assets.pixelBlack);
         blackFadeOut.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         blackFadeOut.getColor().a = 0;
-        blackFadeOut.addAction(Actions.sequence(Actions.fadeIn(.5f),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (newScreen == MainMenuScreen.class)
-                            game.setScreen(new MainMenuScreen(game));
-                        else if (newScreen == GameScreen.class)
-                            game.setScreen(new GameScreen(game));
-                        else if (newScreen == ShopScreen.class)
-                            game.setScreen(new ShopScreen(game));
-                    }
-                })));
+        blackFadeOut.addAction(Actions.sequence(
+                Actions.fadeIn(.5f),
+                Actions.run(() -> {
+                    if (newScreen == MainMenuScreen.class)
+                        game.setScreen(new MainMenuScreen(game));
+                    else if (newScreen == GameScreen.class)
+                        game.setScreen(new GameScreen(game));
+                    else if (newScreen == ShopScreen.class)
+                        game.setScreen(new ShopScreen(game));
+                })
+        ));
         stage.addActor(blackFadeOut);
     }
 
@@ -98,7 +98,8 @@ public abstract class BaseScreen extends InputAdapter implements Screen,
         actor.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
-                                     int pointer, int button) {
+                                     int pointer, int button
+            ) {
                 actor.setPosition(actor.getX(), actor.getY() - 3);
                 event.stop();
                 return true;
@@ -106,7 +107,8 @@ public abstract class BaseScreen extends InputAdapter implements Screen,
 
             @Override
             public void touchUp(InputEvent event, float x, float y,
-                                int pointer, int button) {
+                                int pointer, int button
+            ) {
                 actor.setPosition(actor.getX(), actor.getY() + 3);
             }
         });
@@ -199,7 +201,8 @@ public abstract class BaseScreen extends InputAdapter implements Screen,
 
     @Override
     public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2,
-                         Vector2 pointer1, Vector2 pointer2) {
+                         Vector2 pointer1, Vector2 pointer2
+    ) {
         return false;
     }
 
@@ -227,20 +230,23 @@ public abstract class BaseScreen extends InputAdapter implements Screen,
 
     protected void entranceAction(Actor act, float y, float duration) {
         act.addAction(Actions.moveTo(SCREEN_WIDTH / 2f - act.getWidth() / 2f,
-                y, duration, Interpolation.exp10));
+                y, duration, Interpolation.exp10
+        ));
     }
 
     public void setAnimationChangeColor(final Actor actor) {
         actor.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer,
-                              Actor fromActor) {
+                              Actor fromActor
+            ) {
                 actor.setColor(Color.RED);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer,
-                             Actor toActor) {
+                             Actor toActor
+            ) {
                 actor.setColor(Color.WHITE);
             }
 
