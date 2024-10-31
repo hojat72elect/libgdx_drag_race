@@ -73,12 +73,12 @@ class MainMenuScreen(game: MainStreet) : BaseScreen(game) {
 
 
         buttonMusic.setPosition(5f, 5f)
-        buttonMusic.isChecked = !Settings.isMusicOn
-        Gdx.app.log("Musica", Settings.isMusicOn.toString() + "")
+        buttonMusic.isChecked = Settings.isMusicOn.not()
+        Gdx.app.log("Music", Settings.isMusicOn.toString())
         buttonMusic.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                Settings.isMusicOn = !Settings.isMusicOn
-                buttonMusic.isChecked = !Settings.isMusicOn
+                Settings.isMusicOn = Settings.isMusicOn.not()
+                buttonMusic.isChecked = Settings.isMusicOn.not()
                 if (Settings.isMusicOn) Assets.music.play()
                 else Assets.music.stop()
                 super.clicked(event, x, y)
@@ -103,7 +103,7 @@ class MainMenuScreen(game: MainStreet) : BaseScreen(game) {
 
     override fun draw(delta: Float) {
         batcher.begin()
-        batcher.draw(Assets.street, 0f, 0f, SCREEN_WIDTH.toFloat(), (SCREEN_HEIGHT * 2).toFloat())
+        batcher.draw(Assets.street, 0F, 0F, SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT * 2F)
         batcher.end()
     }
 

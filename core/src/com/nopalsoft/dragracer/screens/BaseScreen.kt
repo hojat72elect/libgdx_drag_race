@@ -29,11 +29,11 @@ import kotlin.math.abs
 abstract class BaseScreen(game: MainStreet) : InputAdapter(), Screen, GestureListener {
     var game: MainStreet
 
-    var camera: OrthographicCamera
+    private var camera: OrthographicCamera
     var batcher: SpriteBatch
     var stage: Stage = game.stage
 
-    var blackFadeOut: Image? = null
+    private var blackFadeOut: Image? = null
 
     init {
         stage.clear()
@@ -76,9 +76,11 @@ abstract class BaseScreen(game: MainStreet) : InputAdapter(), Screen, GestureLis
             Actions.sequence(
                 Actions.fadeIn(.5f),
                 Actions.run {
-                    if (newScreen == MainMenuScreen::class.java) game.screen = MainMenuScreen(game)
-                    else if (newScreen == GameScreen::class.java) game.screen = GameScreen(game)
-                    else if (newScreen == ShopScreen::class.java) game.screen = ShopScreen(game)
+                    when (newScreen) {
+                        MainMenuScreen::class.java -> game.screen = MainMenuScreen(game)
+                        GameScreen::class.java -> game.screen = GameScreen(game)
+                        ShopScreen::class.java -> game.screen = ShopScreen(game)
+                    }
                 }
             ))
         stage.addActor(blackFadeOut)
@@ -186,7 +188,7 @@ abstract class BaseScreen(game: MainStreet) : InputAdapter(), Screen, GestureLis
     open fun up() {
     }
 
-    fun down() {
+    private fun down() {
     }
 
     open fun left() {
