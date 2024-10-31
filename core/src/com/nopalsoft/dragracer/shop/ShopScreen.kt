@@ -80,7 +80,7 @@ class ShopScreen(game: MainStreet) : BaseScreen(game) {
         buttonCharacters = Button(TextureRegionDrawable(Assets.carTornado))
         buttonCharacters!!.setSize(45f, 65f)
         buttonCharacters!!.setPosition(23f, 660f)
-        addPressEffect(buttonCharacters)
+        addPressEffect(buttonCharacters!!)
         buttonCharacters!!.addListener(object : ClickListener() {
             override fun clicked(
                 event: InputEvent, x: Float,
@@ -93,12 +93,12 @@ class ShopScreen(game: MainStreet) : BaseScreen(game) {
         buttonPowerUps = Button(TextureRegionDrawable(Assets.carTornado))
         buttonPowerUps!!.setSize(55f, 55f)
         buttonPowerUps!!.setPosition(17f, 570f)
-        addPressEffect(buttonPowerUps)
+        addPressEffect(buttonPowerUps!!)
 
         buttonCoins = Button(TextureRegionDrawable(Assets.coinFront))
         buttonCoins!!.setSize(55f, 55f)
         buttonCoins!!.setPosition(17f, 480f)
-        addPressEffect(buttonCoins)
+        addPressEffect(buttonCoins!!)
         buttonCoins!!.addListener(object : ClickListener() {
             override fun clicked(
                 event: InputEvent, x: Float,
@@ -111,7 +111,7 @@ class ShopScreen(game: MainStreet) : BaseScreen(game) {
         buttonNoAds = Button(TextureRegionDrawable(Assets.buttonNoAds))
         buttonNoAds!!.setSize(55f, 55f)
         buttonNoAds!!.setPosition(17f, 390f)
-        addPressEffect(buttonNoAds)
+        addPressEffect(buttonNoAds!!)
         buttonNoAds!!.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 NoAdsSubMenu(game, container)
@@ -121,7 +121,7 @@ class ShopScreen(game: MainStreet) : BaseScreen(game) {
         buttonBack = Button(TextureRegionDrawable(Assets.buttonBack))
         buttonBack!!.setSize(55f, 55f)
         buttonBack!!.setPosition(17f, 10f)
-        addPressEffect(buttonBack)
+        addPressEffect(buttonBack!!)
         buttonBack!!.addListener(object : ClickListener() {
             override fun clicked(
                 event: InputEvent, x: Float,

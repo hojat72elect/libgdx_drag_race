@@ -25,7 +25,7 @@ import com.nopalsoft.dragracer.screens.MainMenuScreen
 import com.nopalsoft.dragracer.screens.BaseScreen
 import com.nopalsoft.dragracer.shop.ShopScreen
 
-class GameScreen(game: MainStreet?) : BaseScreen(game) {
+class GameScreen(game: MainStreet?) : BaseScreen(game!!) {
 
 
     private lateinit var labelScore: Label

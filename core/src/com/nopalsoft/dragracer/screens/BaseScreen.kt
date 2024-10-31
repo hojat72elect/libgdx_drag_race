@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.input.GestureDetector.GestureListener
 import com.badlogic.gdx.math.Interpolation
@@ -14,47 +15,53 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.nopalsoft.dragracer.Assets
 import com.nopalsoft.dragracer.MainStreet
 import com.nopalsoft.dragracer.Settings
+import com.nopalsoft.dragracer.Settings.save
 import com.nopalsoft.dragracer.game.GameScreen
 import com.nopalsoft.dragracer.shop.ShopScreen
 import kotlin.math.abs
 
-/**
- * This class was supposed to replace BaseScreen.java but I keep facing a weird runtime issue when I use this class.
- */
-abstract class NewBaseScreen(game: MainStreet) : InputAdapter(), Screen, GestureListener {
+abstract class BaseScreen(game: MainStreet) : InputAdapter(), Screen, GestureListener {
+    var game: MainStreet
 
-    private val camera = OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT)
-    private val batcher = game.batcher
-    private val stage = game.stage
+    var camera: OrthographicCamera
+    var batcher: SpriteBatch
+    var stage: Stage = game.stage
 
-    private lateinit var blackFadeOut: Image
-
+    var blackFadeOut: Image? = null
 
     init {
         stage.clear()
-        camera.position.set(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f, 0F)
-        val detector = GestureDetector(20F, .5F, 2F, .15F, this)
+        this.batcher = game.batcher
+        this.game = game
+
+        camera = OrthographicCamera(SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat())
+        camera.position[SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f] = 0f
+
+        val detector = GestureDetector(20f, .5f, 2f, .15f, this)
+
         val input = InputMultiplexer(this, detector, stage)
         Gdx.input.inputProcessor = input
     }
 
     override fun render(delta: Float) {
-        val optimizedDelta = if (delta > .1F) .1F else delta
+        var delta = delta
+        if (delta > .1f) delta = .1f
 
-        update(optimizedDelta)
+        update(delta)
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         camera.update()
         batcher.projectionMatrix = camera.combined
-        draw(optimizedDelta)
+        draw(delta)
 
-        stage.act(optimizedDelta)
+        stage.act(delta)
         stage.draw()
     }
 
@@ -63,17 +70,17 @@ abstract class NewBaseScreen(game: MainStreet) : InputAdapter(), Screen, Gesture
         game: MainStreet
     ) {
         blackFadeOut = Image(Assets.pixelBlack)
-        blackFadeOut.setSize(SCREEN_WIDTH, SCREEN_HEIGHT)
-        blackFadeOut.color.a = 0f
-        blackFadeOut.addAction(
+        blackFadeOut!!.setSize(SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat())
+        blackFadeOut!!.color.a = 0f
+        blackFadeOut!!.addAction(
             Actions.sequence(
                 Actions.fadeIn(.5f),
                 Actions.run {
                     if (newScreen == MainMenuScreen::class.java) game.screen = MainMenuScreen(game)
                     else if (newScreen == GameScreen::class.java) game.screen = GameScreen(game)
                     else if (newScreen == ShopScreen::class.java) game.screen = ShopScreen(game)
-                })
-        )
+                }
+            ))
         stage.addActor(blackFadeOut)
     }
 
@@ -98,16 +105,18 @@ abstract class NewBaseScreen(game: MainStreet) : InputAdapter(), Screen, Gesture
     }
 
     abstract fun draw(delta: Float)
+
     abstract fun update(delta: Float)
 
     override fun resize(width: Int, height: Int) {
         stage.viewport.update(width, height, true)
     }
 
-    override fun show() {}
+    override fun show() {
+    }
 
     override fun hide() {
-        Settings.save()
+        save()
     }
 
     override fun pause() {
@@ -123,12 +132,20 @@ abstract class NewBaseScreen(game: MainStreet) : InputAdapter(), Screen, Gesture
         batcher.dispose()
     }
 
-    override fun touchDown(x: Float, y: Float, pointer: Int, button: Int) = false
-    override fun tap(x: Float, y: Float, count: Int, button: Int) = false
-    override fun longPress(x: Float, y: Float) = false
+    override fun touchDown(x: Float, y: Float, pointer: Int, button: Int): Boolean {
+        return false
+    }
+
+    override fun tap(x: Float, y: Float, count: Int, button: Int): Boolean {
+        return false
+    }
+
+    override fun longPress(x: Float, y: Float): Boolean {
+        return false
+    }
 
     override fun fling(velocityX: Float, velocityY: Float, button: Int): Boolean {
-        if (abs(velocityX) > abs(velocityY)) {
+        if (abs(velocityX.toDouble()) > abs(velocityY.toDouble())) {
             if (velocityX > 0) {
                 right()
             } else {
@@ -144,26 +161,40 @@ abstract class NewBaseScreen(game: MainStreet) : InputAdapter(), Screen, Gesture
         return false
     }
 
-    override fun pan(x: Float, y: Float, deltaX: Float, deltaY: Float) = false
-    override fun panStop(x: Float, y: Float, pointer: Int, button: Int) = false
-    override fun zoom(initialDistance: Float, distance: Float) = false
+    override fun pan(x: Float, y: Float, deltaX: Float, deltaY: Float): Boolean {
+        return false
+    }
+
+    override fun panStop(x: Float, y: Float, pointer: Int, button: Int): Boolean {
+        return false
+    }
+
+    override fun zoom(initialDistance: Float, distance: Float): Boolean {
+        return false
+    }
 
     override fun pinch(
-        initialPointer1: Vector2,
-        initialPointer2: Vector2,
-        pointer1: Vector2,
-        pointer2: Vector2
-    ) = false
+        initialPointer1: Vector2, initialPointer2: Vector2,
+        pointer1: Vector2, pointer2: Vector2
+    ): Boolean {
+        return false
+    }
 
-    override fun pinchStop() {}
+    override fun pinchStop() {
+    }
 
-    fun up() {}
+    open fun up() {
+    }
 
-    fun down() {}
+    fun down() {
+    }
 
-    fun left() {}
+    open fun left() {
+    }
 
-    fun right() {}
+    open fun right() {
+    }
+
 
     protected fun entranceAction(act: Actor, y: Float, duration: Float) {
         act.addAction(
@@ -178,25 +209,25 @@ abstract class NewBaseScreen(game: MainStreet) : InputAdapter(), Screen, Gesture
         actor.addListener(object : InputListener() {
             override fun enter(
                 event: InputEvent, x: Float, y: Float, pointer: Int,
-                fromActor: Actor
+                fromActor: Actor?
             ) {
                 actor.color = Color.RED
             }
 
             override fun exit(
                 event: InputEvent, x: Float, y: Float, pointer: Int,
-                toActor: Actor
+                toActor: Actor?
             ) {
                 actor.color = Color.WHITE
             }
         })
     }
 
-
     companion object {
-        const val SCREEN_WIDTH = 480F
-        const val SCREEN_HEIGHT = 800F
-        const val WORLD_WIDTH = 480F
-        const val WORLD_HEIGHT = 800F
+        const val SCREEN_WIDTH: Int = 480
+        const val SCREEN_HEIGHT: Int = 800
+
+        const val WORLD_WIDTH: Float = 480f
+        const val WORLD_HEIGHT: Float = 800f
     }
 }
