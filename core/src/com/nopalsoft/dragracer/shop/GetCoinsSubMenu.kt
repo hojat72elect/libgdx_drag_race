@@ -43,16 +43,13 @@ class GetCoinsSubMenu(var game: MainStreet, container: Table) {
                             })
                     )
                 }
-                game.reqHandler.showFacebook()
             }
         })
 
         buttonBuy50MillionCoins = TextButton("Buy", Assets.styleTextButtonBuy)
         addPressEffect(buttonBuy50MillionCoins)
         buttonBuy50MillionCoins.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent, x: Float, y: Float) {
-                game.reqHandler.buy50millionCoins()
-            }
+            override fun clicked(event: InputEvent, x: Float, y: Float) {}
         })
 
         // Facebook Like

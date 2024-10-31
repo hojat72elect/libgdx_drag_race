@@ -91,8 +91,7 @@ class GameScreen(game: MainStreet?) : BaseScreen(game) {
         labelLeaderboard.setPosition(500f, 110f)
         labelLeaderboard.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                if (game.gameServiceHandler.isSignedIn()) game.gameServiceHandler.getLeaderboard()
-                else game.gameServiceHandler.signIn()
+
             }
         })
 
@@ -188,7 +187,6 @@ class GameScreen(game: MainStreet?) : BaseScreen(game) {
     private fun setGameover() {
         state = STATE_GAME_OVER
         setNewScore(score)
-        game.gameServiceHandler.submitScore(score.toLong())
         Settings.coinsTotal += coins
         stage.clear()
         gameOverGroup = GameOverGroup(this, score, coins)
@@ -197,7 +195,6 @@ class GameScreen(game: MainStreet?) : BaseScreen(game) {
         stage.addActor(labelLeaderboard)
         stage.addActor(labelShopScreen)
         stage.addActor(buttonMusic)
-        game.reqHandler.showAdBanner()
     }
 
     private fun setReady() {
@@ -239,9 +236,6 @@ class GameScreen(game: MainStreet?) : BaseScreen(game) {
     override fun hide() {
         super.hide()
         stageGame.dispose()
-        if (Settings.numberOfTimesPlayed % Settings.TIMES_TO_SHOW_AD == 0) game.reqHandler.showInterstitial()
-
-        game.reqHandler.hideAdBanner()
     }
 
     override fun draw(delta: Float) {

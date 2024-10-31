@@ -35,7 +35,6 @@ open class NoAdsSubMenu(var game: MainStreet, container: Table) {
                     Settings.didBuyNoAds = true
                     labelNoAds!!.isVisible = false
                     buttonNoAds.isVisible = false
-                    game.reqHandler.removeAds()
                 }
             }
         })

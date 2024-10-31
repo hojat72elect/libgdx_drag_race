@@ -63,8 +63,7 @@ class GameOverGroup(screen: BaseScreen, distance: Int, coins: Int) : Group() {
         screen.addPressEffect(buttonShareTwitter)
         buttonShareTwitter.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                screen.game.reqHandler
-                    .shareOnTwitter("My best distance playing Drag Racing V6 is ${Settings.bestScore}m, can you beat me?")
+
             }
         })
 
@@ -76,7 +75,7 @@ class GameOverGroup(screen: BaseScreen, distance: Int, coins: Int) : Group() {
         screen.addPressEffect(buttonShareFacebook)
         buttonShareFacebook.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                screen.game.reqHandler.shareOnFacebook("My best distance playing Drag Racing V6 is ${Settings.bestScore}m, can you beat me?")
+
             }
         })
 

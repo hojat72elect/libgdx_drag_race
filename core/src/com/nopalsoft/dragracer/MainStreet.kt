@@ -4,15 +4,13 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.StretchViewport
-import com.nopalsoft.dragracer.handlers.GameServicesHandler
-import com.nopalsoft.dragracer.handlers.RequestHandler
-import com.nopalsoft.dragracer.screens.MainMenuScreen
 import com.nopalsoft.dragracer.screens.BaseScreen
+import com.nopalsoft.dragracer.screens.MainMenuScreen
 
-class MainStreet( val reqHandler: RequestHandler,  val gameServiceHandler: GameServicesHandler):Game() {
+class MainStreet : Game() {
 
     lateinit var stage: Stage
-lateinit var batcher: SpriteBatch
+    lateinit var batcher: SpriteBatch
 
 
     override fun create() {
@@ -23,7 +21,7 @@ lateinit var batcher: SpriteBatch
 
         Assets.load()
 
-        if (Settings.didBuyNoAds) reqHandler.removeAds()
+
         setScreen(MainMenuScreen(this))
     }
 }

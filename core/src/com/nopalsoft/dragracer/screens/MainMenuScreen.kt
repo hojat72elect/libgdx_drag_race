@@ -52,9 +52,7 @@ class MainMenuScreen(game: MainStreet) : BaseScreen(game) {
 
         labelRate.setPosition(500f, 340f)
         labelRate.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent, x: Float, y: Float) {
-                game.reqHandler.showRater()
-            }
+            override fun clicked(event: InputEvent, x: Float, y: Float) {}
         })
 
 
@@ -69,8 +67,7 @@ class MainMenuScreen(game: MainStreet) : BaseScreen(game) {
         labelLeaderboard.setPosition(500f, 140f)
         labelLeaderboard.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                if (game.gameServiceHandler.isSignedIn()) game.gameServiceHandler.getLeaderboard()
-                else game.gameServiceHandler.signIn()
+
             }
         })
 
