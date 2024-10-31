@@ -1,4 +1,5 @@
 android {
+    namespace "com.nopalsoft.dragracer.android"
     buildToolsVersion "30.0.3"
     compileSdkVersion 30
     sourceSets {
@@ -18,7 +19,7 @@ android {
     }
     defaultConfig {
         applicationId "com.nopalsoft.dragracer"
-        minSdkVersion 14
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
